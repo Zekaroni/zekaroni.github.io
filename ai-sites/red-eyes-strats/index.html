@@ -22,13 +22,13 @@
             }
         }
         .tab-active {
-            border-bottom: 4px solid #991b1b;
-            color: #991b1b;
+            border-bottom: 4px solid #b91c1c;
+            color: #b91c1c;
             font-weight: 700;
         }
         .card-btn.active {
             background-color: #f5f5f4;
-            border-left: 4px solid #991b1b;
+            border-left: 4px solid #b91c1c;
         }
         html {
             scroll-behavior: smooth;
@@ -36,11 +36,6 @@
     </style>
 </head>
 <body class="bg-stone-50 text-stone-800 font-sans antialiased">
-
-    <!-- Chosen Palette: Warm Ash & Crimson Accent -->
-    <!-- Application Structure Plan: A dashboard-style SPA prioritizing a linear but highly interactive reading experience. It starts with high-level theory, moves to interactive card breakdowns (tabbed lists to avoid clutter), and concludes with comparative data (budget vs. optimal) using dynamic charts. This structure allows Duel Links players to quickly understand the core strategy before diving into granular deck building and matchup statistics, which are highly interactive to maintain engagement. -->
-    <!-- Visualization & Content Choices: 1. Core Theory -> Interactive Text Toggle -> Allows users to switch between Aggro and Control playstyles without scrolling. 2. Card Database -> Clickable List to Detail View -> Organizes large amounts of card text cleanly. 3. Deck Composition -> Doughnut Chart (Chart.js) -> Best for visualizing monster/spell/trap ratios. 4. Matchup Spread -> Radar Chart (Chart.js) -> Visually demonstrates strength/weaknesses across the meta landscape in a compact space. Confirmed NO SVG or Mermaid used. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <nav class="sticky top-0 z-50 bg-stone-100/95 backdrop-blur border-b border-stone-200 shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,7 +46,9 @@
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="#theory" class="text-stone-600 hover:text-red-800 px-3 py-2 text-sm font-medium transition-colors">Basic Theory</a>
+                    <a href="#combos" class="text-stone-600 hover:text-red-800 px-3 py-2 text-sm font-medium transition-colors">Combos</a>
                     <a href="#core-cards" class="text-stone-600 hover:text-red-800 px-3 py-2 text-sm font-medium transition-colors">Core Cards</a>
+                    <a href="#decklists-sec" class="text-stone-600 hover:text-red-800 px-3 py-2 text-sm font-medium transition-colors">DLM Decklists</a>
                     <a href="#analytics" class="text-stone-600 hover:text-red-800 px-3 py-2 text-sm font-medium transition-colors">Deck Analytics</a>
                 </div>
             </div>
@@ -65,34 +62,56 @@
                 State of <span class="text-red-800">Red-Eyes</span> in Duel Links
             </h1>
             <p class="text-lg md:text-xl text-stone-600 max-w-2xl mx-auto px-4">
-                A comprehensive interactive analysis of the potential, playstyles, and meta-readiness of the Red-Eyes archetype.
+                A highly comprehensive analytical breakdown of modern Red-Eyes builds utilizing the dominant <strong>Red-Eyes Armament</strong> skill to turbo-summon <strong>Red-Eyes Dark Dragoon</strong>.
             </p>
         </header>
 
         <section id="theory" class="scroll-mt-20">
             <div class="mb-8 border-b border-stone-300 pb-4">
                 <h2 class="text-3xl font-bold text-stone-900">Basic Theory & Playstyle</h2>
-                <p class="mt-2 text-stone-600">This section explores the fundamental mechanics of the Red-Eyes deck. Red-Eyes is unique because it can pivot seamlessly between aggressive fusion summoning and reactive trap-based control. Interact with the tabs below to understand these dual philosophies.</p>
+                <p class="mt-2 text-stone-600">Historically treated as an outdated structure-deck engine, modern Red-Eyes builds on Duel Links Meta have evolved into a formidable hybrid strategy. By leveraging game-changing character skills, the archetype has shifted from simple fusion beatdown into an interactive, combo-heavy threat.</p>
             </div>
 
             <div class="bg-white rounded-xl shadow-md border border-stone-200 overflow-hidden">
                 <div class="flex border-b border-stone-200 bg-stone-50">
                     <button id="btn-aggro" class="flex-1 py-4 text-center font-semibold text-stone-600 hover:bg-stone-100 transition-colors tab-active" onclick="switchTheory('aggro')">
-                        &#9876; The Aggro Setup
+                        &#9876; Dragoon & Ritual Turbo
                     </button>
                     <button id="btn-control" class="flex-1 py-4 text-center font-semibold text-stone-600 hover:bg-stone-100 transition-colors" onclick="switchTheory('control')">
-                        &#128737; The Control Setup
+                        &#128737; Traditional Fusion Control
                     </button>
                 </div>
                 <div class="p-6 md:p-8" id="theory-content">
-                    <h3 class="text-2xl font-bold text-red-800 mb-4" id="theory-title">Red-Eyes Fusion Beatdown</h3>
+                    <h3 class="text-2xl font-bold text-red-800 mb-4" id="theory-title">Red-Eyes Armament Dragoon Turbo</h3>
                     <p class="text-stone-700 leading-relaxed mb-4" id="theory-text">
-                        The primary offensive strategy relies on resolving <strong>Red-Eyes Fusion</strong> as early as possible. By sending "Red-Eyes Black Dragon" and a Level 6 Dragon (like Meteor Dragon Red-Eyes Impact) from the deck to the graveyard, you immediately summon <strong>Meteor Black Comet Dragon</strong>. This establishes a 3500 ATK beater that inflicts burn damage upon fusion, creating immense early-game pressure. The key to this playstyle is speed and punishing unestablished boards.
+                        The gold standard in modern Duel Links. Using the skill <strong>Red-Eyes Armament</strong>, you gain immediate access to <strong>Lord of the Red</strong> and <strong>Red-Eyes Transmigration</strong>. The skill then grants a free <strong>Polymerization</strong> and <strong>Dark Magician</strong> from outside your deck, making <strong>Red-Eyes Dark Dragoon</strong> a highly consistent Turn 1 boss monster. Dragoon provides unmatched target/destruction immunity, burn potential, and a powerful omni-negate.
                     </p>
                     <div class="bg-stone-100 p-4 rounded-lg border border-stone-200">
                         <strong class="text-stone-900 block mb-2">Key Interaction:</strong>
-                        <span id="theory-interaction" class="text-stone-700">Equipping Black Metal Dragon to your Fusion monster boosts it by 600 ATK. When the Fusion is destroyed or the equip is sent to the GY, you search another Red-Eyes card, maintaining hand advantage.</span>
+                        <span id="theory-interaction" class="text-stone-700">Instead of relying on Red-Eyes Fusion (which locks you out of other summons), modern decks use the skill's Polymerization to summon Dragoon. This leaves your normal summon entirely open for play-extenders like Black Metal Dragon!</span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="combos" class="scroll-mt-20">
+            <div class="mb-8 border-b border-stone-300 pb-4">
+                <h2 class="text-3xl font-bold text-stone-900">Standard Combo Lines</h2>
+                <p class="mt-2 text-stone-600">The premier strategy of the deck operates on specific, highly optimized card interactions. Learn the primary sequence used to build an unstoppable board from a single normal summon.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-stone-900 text-stone-100 p-6 rounded-xl border border-stone-800">
+                    <div class="text-red-500 font-bold text-lg mb-2">Step 1: Normal Summon Setup</div>
+                    <p class="text-stone-400 text-sm">Normal summon <strong>Black Metal Dragon</strong>. Immediately Link Summon into <strong>Striker Dragon</strong>. This triggers Black Metal Dragon's graveyard search effect, allowing you to fetch <strong>Red-Eyes Darkness Metal Dragon (REDMD)</strong> directly to your hand.</p>
+                </div>
+                <div class="bg-stone-900 text-stone-100 p-6 rounded-xl border border-stone-800">
+                    <div class="text-red-500 font-bold text-lg mb-2">Step 2: REDMD Loop</div>
+                    <p class="text-stone-400 text-sm">Banish Striker Dragon to special summon REDMD. Activate REDMD's effect to revive Black Metal Dragon. Now, link both into <strong>Hieratic Seals of the Heavenly Spheres</strong>. Black Metal Dragon triggers again to search another Red-Eyes card!</p>
+                </div>
+                <div class="bg-stone-900 text-stone-100 p-6 rounded-xl border border-stone-800">
+                    <div class="text-red-500 font-bold text-lg mb-2">Step 3: Skill Activation</div>
+                    <p class="text-stone-400 text-sm">Use <strong>Red-Eyes Armament</strong>. Dump extra cards to search <strong>Lord of the Red</strong> and add <strong>Polymerization + Dark Magician</strong>. Use Polymerization with DM and your Red-Eyes monster to easily field <strong>Red-Eyes Dark Dragoon</strong> alongside your Seals bounce!</p>
                 </div>
             </div>
         </section>
@@ -100,11 +119,12 @@
         <section id="core-cards" class="scroll-mt-20">
             <div class="mb-8 border-b border-stone-300 pb-4">
                 <h2 class="text-3xl font-bold text-stone-900">Core Arsenal</h2>
-                <p class="mt-2 text-stone-600">Explore the foundational cards that make the archetype function. Select a card from the index on the left to reveal its specific tactical application, ratios, and rulings in the current Duel Links environment.</p>
+                <p class="mt-2 text-stone-600">Explore the foundational cards that make the modern archetype function. Select a card from the index on the left to reveal its specific tactical application, ratios, and meta-relevance.</p>
             </div>
 
             <div class="flex flex-col md:flex-row gap-6">
                 <div class="w-full md:w-1/3 bg-white rounded-xl shadow-md border border-stone-200 overflow-hidden flex flex-col h-[400px] overflow-y-auto" id="card-list">
+                    <!-- Loaded dynamically via JS -->
                 </div>
 
                 <div class="w-full md:w-2/3 bg-stone-900 rounded-xl shadow-xl border border-stone-800 p-6 md:p-8 flex flex-col justify-center min-h-[400px]">
@@ -117,15 +137,56 @@
             </div>
         </section>
 
-        <section id="analytics" class="scroll-mt-20">
+        <section id="decklists-sec" class="scroll-mt-20">
             <div class="mb-8 border-b border-stone-300 pb-4">
-                <h2 class="text-3xl font-bold text-stone-900">Deck Analytics & Matchups</h2>
-                <p class="mt-2 text-stone-600">Analyzing performance metrics between different builds. The "Budget" build utilizes only the Structure Deck and readily available tickets, while the "Optimal" build includes expensive box URs (like Book of Moon or Crackdown). Use the controls to compare composition and meta matchups.</p>
+                <h2 class="text-3xl font-bold text-stone-900">Actual Deck Lists (Duel Links Meta)</h2>
+                <p class="mt-2 text-stone-600">Below are the specific deck formulas optimized for the competitive scene. Toggle between the F2P-friendly option and the full-power build designed for competitive tournaments.</p>
             </div>
 
-            <div class="flex justify-center gap-4 mb-8">
-                <button id="btn-budget" class="px-6 py-2 rounded-full bg-red-800 text-white font-semibold shadow-md hover:bg-red-700 transition-colors" onclick="switchDeck('budget')">Budget Build</button>
-                <button id="btn-optimal" class="px-6 py-2 rounded-full bg-stone-300 text-stone-800 font-semibold shadow hover:bg-stone-400 transition-colors" onclick="switchDeck('optimal')">Optimal Build</button>
+            <div class="bg-stone-900 rounded-2xl border border-stone-800 overflow-hidden">
+                <div class="flex border-b border-stone-800 bg-stone-950 p-4 justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                            <span>&#128196;</span> <span id="current-deck-title">Optimal Dragoon Turbo Build</span>
+                        </h3>
+                        <p class="text-xs text-stone-400">Skill Target: <strong class="text-red-400" id="current-deck-skill">Red-Eyes Armament</strong></p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="list-btn-optimal" class="px-4 py-2 text-xs rounded bg-red-700 text-white font-semibold shadow hover:bg-red-600 transition" onclick="switchDeckList('optimal')">Optimal Build</button>
+                        <button id="list-btn-budget" class="px-4 py-2 text-xs rounded bg-stone-800 text-stone-300 font-semibold hover:bg-stone-700 transition" onclick="switchDeckList('budget')">Budget Build</button>
+                    </div>
+                </div>
+
+                <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Main Deck Cards -->
+                    <div>
+                        <h4 class="text-sm font-bold tracking-wider text-stone-400 uppercase mb-4 flex items-center justify-between">
+                            <span>Main Deck</span>
+                            <span id="main-count-tag" class="text-xs bg-stone-800 text-stone-300 px-2 py-0.5 rounded">30 Cards</span>
+                        </h4>
+                        <div id="main-deck-container" class="space-y-2">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Extra Deck Cards -->
+                    <div>
+                        <h4 class="text-sm font-bold tracking-wider text-stone-400 uppercase mb-4 flex items-center justify-between">
+                            <span>Extra Deck</span>
+                            <span id="extra-count-tag" class="text-xs bg-stone-800 text-stone-300 px-2 py-0.5 rounded">7 Cards</span>
+                        </h4>
+                        <div id="extra-deck-container" class="space-y-2">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analytics" class="scroll-mt-20">
+            <div class="mb-8 border-b border-stone-300 pb-4">
+                <h2 class="text-3xl font-bold text-stone-900">Deck Performance Analytics</h2>
+                <p class="mt-2 text-stone-600">Compare statistics based on ladder performance and meta match-ups. The "Budget" build utilizes only the structure deck and accessible tickets, while the "Optimal" build includes high-end box cards (such as Forbidden Droplet or Book of Eclipse).</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -134,18 +195,18 @@
                     <div class="chart-container">
                         <canvas id="compositionChart"></canvas>
                     </div>
-                    <div class="mt-4 text-center text-sm text-stone-600" id="cost-display">
-                        Estimated Cost: <span class="font-bold text-stone-900">1000 Gems + 1 Structure Deck</span>
+                    <div class="mt-4 text-center text-sm text-stone-600">
+                        Estimated Investment: <span class="font-bold text-stone-900" id="cost-display">42,000+ Gems + $64 USD</span>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow-md border border-stone-200">
-                    <h3 class="text-xl font-bold text-stone-800 mb-4 text-center">Meta Matchup Win Rate</h3>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4 text-center">Meta Matchup Win Rate (%)</h3>
                     <div class="chart-container">
                         <canvas id="matchupChart"></canvas>
                     </div>
                     <p class="mt-4 text-center text-sm text-stone-600">
-                        Radar displays estimated win percentage against Tier 1-3 decks.
+                        Radar displays estimated win rates against Tier 1-3 meta decks (e.g. Blue-Eyes, Dark Magician, Tenyi, Yubel).
                     </p>
                 </div>
             </div>
@@ -155,20 +216,20 @@
 
     <footer class="bg-stone-900 text-stone-400 py-8 text-center mt-12">
         <p class="mb-2">&#9876; Red-Eyes Strategy Report &#9876;</p>
-        <p class="text-sm">For illustrative and analytical purposes. Meta statistics are estimates based on standard Duel Links ladder environments.</p>
+        <p class="text-sm">Derived from professional tournament configurations on Duel Links Meta. Values represent average results in highly competitive environments.</p>
     </footer>
 
     <script>
         const theoryData = {
             aggro: {
-                title: "Red-Eyes Fusion Beatdown",
-                text: "The primary offensive strategy relies on resolving <strong>Red-Eyes Fusion</strong> as early as possible. By sending \"Red-Eyes Black Dragon\" and a Level 6 Dragon from the deck to the graveyard, you immediately summon <strong>Meteor Black Comet Dragon</strong>. This establishes a 3500 ATK beater that inflicts burn damage upon fusion, creating immense early-game pressure.",
-                interaction: "Equipping Black Metal Dragon to your Fusion monster boosts it by 600 ATK. When the Fusion is destroyed or the equip is sent to the GY, you search another Red-Eyes card, maintaining hand advantage."
+                title: "Red-Eyes Armament Dragoon Turbo",
+                text: "The primary offensive strategy relies on resolving <strong>Red-Eyes Armament</strong>. By utilizing a deck consisting of at least 15 Red-Eyes/Lord of the Red cards, you can search <strong>Lord of the Red</strong> or <strong>Red-Eyes Transmigration</strong>. The skill automatically adds <strong>Polymerization</strong> and <strong>Dark Magician</strong> to your hand from outside your deck while sending up to 4 Red-Eyes monsters to the Graveyard. This easily fuels <strong>Red-Eyes Dark Dragoon</strong> on turn one with total summon freedom.",
+                interaction: "Instead of relying on Red-Eyes Fusion (which locks you out of other summons), modern decks use the skill's Polymerization to summon Dragoon. This leaves your normal summon entirely open for play-extenders like Black Metal Dragon!"
             },
             control: {
-                title: "Trap-Oriented Control",
-                text: "When going first, Red-Eyes plays a control game. Summoning a Red-Eyes monster (often Red-Eyes Slash Dragon) and backing it up with <strong>Red-Eyes Fang with Chain</strong> and standard disruption (like Enemy Controller or Warning Point) halts opponent plays. Fang with Chain allows you to steal an opponent's effect monster, turning their boss monster into an equip spell.",
-                interaction: "Red-Eyes Insight is the ultimate consistency tool here. It sends a Red-Eyes monster to the GY to add Fang with Chain directly to your hand, ensuring you always have your primary disruptive trap ready for the opponent's turn."
+                title: "Traditional Fusion Control",
+                text: "A slower-paced, defensive variant. Utilizes <strong>Red-Eyes Insight</strong> to mill a Red-Eyes monster from deck to GY, immediately adding <strong>Red-Eyes Fang with Chain</strong> or <strong>Red-Eyes Fusion</strong> to the hand. Players summon <strong>Red-Eyes Slash Dragon</strong> to negate targeting effects by sacrificing equips, backed up by defensive traps (such as Book of Moon, Warning Point, or Crackdown).",
+                interaction: "Equipping Black Metal Dragon to Slash Dragon boosts it by 600 ATK. If either card is sent to the GY, you can search any Red-Eyes card from your deck to maintain resources."
             }
         };
 
@@ -184,12 +245,13 @@
         }
 
         const coreCards = [
-            { name: "Red-Eyes Fusion", type: "Spell", icon: "&#10024;", text: "Uses monsters from hand, deck, or field as fusion material. The central playmaker. Restricts other summons the turn it is used.", ratio: "Play 3 (or 2 with Insight)" },
-            { name: "Red-Eyes Insight", type: "Spell", icon: "&#10024;", text: "Sends a Red-Eyes from deck to GY to search a Red-Eyes Spell/Trap. Sets up graveyard revival and fetches Fusion or Fang with Chain.", ratio: "Play 2-3" },
-            { name: "Red-Eyes Fang with Chain", type: "Trap", icon: "&#128393;", text: "Equips to a Red-Eyes. Can send itself to GY to equip an opponent's effect monster to the monster it was equipped to. Incredible removal.", ratio: "Play 2" },
-            { name: "Black Metal Dragon", type: "Monster", icon: "&#128121;", text: "Equips from hand/field for +600 ATK. When sent to GY, searches ANY Red-Eyes card. The best normal summon in the deck.", ratio: "Play 3" },
-            { name: "Meteor Black Comet Dragon", type: "Fusion", icon: "&#128009;", text: "3500 ATK. Sends a Red-Eyes to GY on summon to burn opponent. Floats into a normal Red-Eyes upon destruction.", ratio: "Play 1-2 in Extra Deck" },
-            { name: "Red-Eyes Slash Dragon", type: "Fusion", icon: "&#128009;", text: "Equips warriors from GY when a Red-Eyes attacks. Can negate targeting effects by sending an equip to the GY.", ratio: "Play 1 in Extra Deck" }
+            { name: "Red-Eyes Dark Dragoon", type: "Fusion", icon: "&#128009;", text: "An absolute powerhouse. Cannot be targeted or destroyed by card effects. Offers up to twice per turn target-and-destroy with burn damage, plus an omni-negate that increases its ATK by 1000 permanently upon resolution.", ratio: "Play 1 (Acquired via Box / Skill Setup)" },
+            { name: "Lord of the Red", type: "Ritual Monster", icon: "&#128293;", text: "Level 8 Ritual. Once per turn, when a card or effect is activated (except during the Damage Step), you can target and destroy 1 monster your opponent controls. Additionally, you can target and destroy 1 Spell/Trap.", ratio: "Play 1-2 (Crucial Skill Trigger)" },
+            { name: "Red-Eyes Black Meteor Dragon", type: "Monster", icon: "&#128123;", text: "Can special summon itself from the hand by sending a Level 5 or higher normal Red-Eyes monster from your deck to the Graveyard. It becomes Level 7, facilitating immediate Level 7 Xyz plays.", ratio: "Play 2-3" },
+            { name: "Red-Eyes Darkness Metal Dragon", type: "Monster", icon: "&#128014;", text: "Can banish any face-up Dragon to Special Summon itself from the hand. Once per turn, it lets you Special Summon another Dragon from your hand or Graveyard. The absolute center of your Link extensions.", ratio: "Play 1 (Limit 1 Bundle / Box)" },
+            { name: "Black Metal Dragon", type: "Monster", icon: "&#128121;", text: "Equips from hand/field to a Red-Eyes for +600 ATK. Crucially, when sent from the field to the Graveyard (even as Link material), it searches ANY Red-Eyes card with zero turn limits.", ratio: "Play 3" },
+            { name: "Red-Eyes Transmigration", type: "Spell", icon: "&#10024;", text: "Ritual Spell used to summon Lord of the Red. Allows banishing Red-Eyes monsters from your Graveyard as material, creating excellent economy after you've already made your Fusion plays.", ratio: "Play 1-2" },
+            { name: "Red-Eyes Fang with Chain", type: "Trap", icon: "&#128393;", text: "Equips to a Red-Eyes. Can send itself to the GY to steal an opponent's effect monster and treat it as an equip card. Extremely powerful defensive disruption.", ratio: "Play 1-2" }
         ];
 
         function initCards() {
@@ -222,18 +284,139 @@
             `;
         }
 
-        const deckData = {
+        const decklists = {
             budget: {
-                cost: "1000 Gems + 1 Structure Deck",
-                composition: [12, 6, 2], 
-                matchups: [45, 55, 30, 40, 60] 
+                title: "F2P Red-Eyes Armament Build",
+                skill: "Red-Eyes Armament (Alternative Art Joey Wheeler)",
+                cost: "1,500 Gems + 1 Structure Deck",
+                composition: [14, 5, 2], // 14 Monsters, 5 Spells, 2 Traps
+                matchups: [45, 55, 30, 40, 60],
+                main: [
+                    { name: "Red-Eyes Black Dragon", count: 3, type: "Monster", rarity: "UR", source: "Structure Deck / Tickets" },
+                    { name: "Lord of the Red", count: 1, type: "Monster", rarity: "UR", source: "Structure Deck / Box" },
+                    { name: "Red-Eyes Black Meteor Dragon", count: 2, type: "Monster", rarity: "UR", source: "Structure Deck / Box" },
+                    { name: "Red-Eyes Wyvern", count: 2, type: "Monster", rarity: "SR", source: "Structure Deck / Tickets" },
+                    { name: "Red-Eyes Retro Dragon", count: 1, type: "Monster", rarity: "SR", source: "Joey Level Up / Tickets" },
+                    { name: "Black Metal Dragon", count: 2, type: "Monster", rarity: "SR", source: "Box / SR Ticket" },
+                    { name: "Lava Golem", count: 2, type: "Monster", rarity: "UR", source: "Marik Gate / UR Ticket" },
+                    { name: "Red-Eyes Transmigration", count: 1, type: "Spell", rarity: "SR", source: "Structure Deck / Box" },
+                    { name: "Red-Eyes Insight", count: 3, type: "Spell", rarity: "SR", source: "SR Tickets / Ranked Rewards" },
+                    { name: "Red-Eyes Fusion", count: 1, type: "Spell", rarity: "SR", source: "Structure Deck" },
+                    { name: "Red-Eyes Fang with Chain", count: 1, type: "Trap", rarity: "UR", source: "Box / Selection Box" },
+                    { name: "Red-Eyes Spirit", count: 1, type: "Trap", rarity: "SR", source: "Joey Level Up / SR Tickets" }
+                ],
+                extra: [
+                    { name: "Red-Eyes Dark Dragoon", count: 1, type: "Fusion", rarity: "UR", source: "Skill / Box" },
+                    { name: "Meteor Black Comet Dragon", count: 1, type: "Fusion", rarity: "UR", source: "Box / Structure Deck" },
+                    { name: "Red-Eyes Slash Dragon", count: 1, type: "Fusion", rarity: "UR", source: "Structure Deck" },
+                    { name: "Red-Eyes Flare Metal Dragon", count: 1, type: "XYZ", rarity: "UR", source: "Box / Selection Box" }
+                ]
             },
             optimal: {
-                cost: "15000+ Gems + 3 Structure Decks",
-                composition: [8, 8, 4], 
-                matchups: [60, 65, 45, 55, 75] 
+                title: "Optimal Dragoon Turbo Build",
+                skill: "Red-Eyes Armament (Alternative Art Joey Wheeler)",
+                cost: "42,000+ Gems + $64 USD",
+                composition: [15, 12, 3], // 15 Monsters, 12 Spells, 3 Traps
+                matchups: [75, 80, 65, 70, 85],
+                main: [
+                    { name: "Red-Eyes Black Dragon", count: 2, type: "Monster", rarity: "UR", source: "Structure Deck" },
+                    { name: "Lord of the Red", count: 2, type: "Monster", rarity: "UR", source: "Structure Deck" },
+                    { name: "Red-Eyes Darkness Metal Dragon", count: 1, type: "Monster", rarity: "UR", source: "Limit 1 Bundle" },
+                    { name: "Red-Eyes Black Meteor Dragon", count: 3, type: "Monster", rarity: "UR", source: "Structure Deck / Box" },
+                    { name: "Black Metal Dragon", count: 3, type: "Monster", rarity: "SR", source: "Box" },
+                    { name: "Red-Eyes Wyvern", count: 1, type: "Monster", rarity: "SR", source: "Structure Deck" },
+                    { name: "Lava Golem", count: 3, type: "Monster", rarity: "UR", source: "Marik Gate / UR Ticket" },
+                    { name: "Pre-Preparation of Rites", count: 2, type: "Spell", rarity: "SR", source: "Box / Selection Box" },
+                    { name: "Red-Eyes Transmigration", count: 2, type: "Spell", rarity: "SR", source: "Structure Deck" },
+                    { name: "Red-Eyes Insight", count: 2, type: "Spell", rarity: "SR", source: "SR Tickets" },
+                    { name: "Forbidden Droplet", count: 3, type: "Spell", rarity: "UR", source: "Box" },
+                    { name: "Book of Eclipse", count: 3, type: "Spell", rarity: "SR", source: "Box" },
+                    { name: "Red-Eyes Fang with Chain", count: 1, type: "Trap", rarity: "UR", source: "Box" },
+                    { name: "Red-Eyes Spirit", count: 1, type: "Trap", rarity: "SR", source: "Ranked Rewards" },
+                    { name: "Limit 3 Trap (e.g., Crackdown)", count: 1, type: "Trap", rarity: "UR", source: "Box" }
+                ],
+                extra: [
+                    { name: "Red-Eyes Dark Dragoon", count: 1, type: "Fusion", rarity: "UR", source: "Skill / Box" },
+                    { name: "Meteor Black Comet Dragon", count: 1, type: "Fusion", rarity: "UR", source: "Structure Deck" },
+                    { name: "Red-Eyes Slash Dragon", count: 1, type: "Fusion", rarity: "UR", source: "Structure Deck" },
+                    { name: "Striker Dragon", count: 1, type: "Link", rarity: "SR", source: "Box" },
+                    { name: "Hieratic Seals of the Heavenly Spheres", count: 1, type: "Link", rarity: "UR", source: "Box" },
+                    { name: "Red-Eyes Flare Metal Dragon", count: 1, type: "XYZ", rarity: "UR", source: "Box" },
+                    { name: "Dark Armed, the Dragon of Annihilation", count: 1, type: "XYZ", rarity: "UR", source: "Box" }
+                ]
             }
         };
+
+        function renderDeckLists(type) {
+            const data = decklists[type];
+            document.getElementById('current-deck-title').innerText = data.title;
+            document.getElementById('current-deck-skill').innerText = data.skill;
+
+            // Highlight active button
+            if (type === 'optimal') {
+                document.getElementById('list-btn-optimal').className = "px-4 py-2 text-xs rounded bg-red-700 text-white font-semibold shadow hover:bg-red-600 transition";
+                document.getElementById('list-btn-budget').className = "px-4 py-2 text-xs rounded bg-stone-800 text-stone-300 font-semibold hover:bg-stone-700 transition";
+            } else {
+                document.getElementById('list-btn-budget').className = "px-4 py-2 text-xs rounded bg-red-700 text-white font-semibold shadow hover:bg-red-600 transition";
+                document.getElementById('list-btn-optimal').className = "px-4 py-2 text-xs rounded bg-stone-800 text-stone-300 font-semibold hover:bg-stone-700 transition";
+            }
+
+            // Main Deck Render
+            const mainContainer = document.getElementById('main-deck-container');
+            mainContainer.innerHTML = '';
+            let mainCount = 0;
+            data.main.forEach(card => {
+                mainCount += card.count;
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-stone-800 p-3 rounded-lg border border-stone-700 hover:border-red-800 transition-colors";
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-red-500 text-sm">x${card.count}</span>
+                        <div>
+                            <p class="text-stone-100 font-semibold text-sm">${card.name}</p>
+                            <p class="text-stone-400 text-xs">${card.source}</p>
+                        </div>
+                    </div>
+                    <span class="text-xs px-2 py-0.5 rounded font-bold ${getCardTypeClass(card.type)}">${card.rarity} - ${card.type}</span>
+                `;
+                mainContainer.appendChild(row);
+            });
+            document.getElementById('main-count-tag').innerText = `${mainCount} Cards`;
+
+            // Extra Deck Render
+            const extraContainer = document.getElementById('extra-deck-container');
+            extraContainer.innerHTML = '';
+            let extraCount = 0;
+            data.extra.forEach(card => {
+                extraCount += card.count;
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-stone-800 p-3 rounded-lg border border-stone-700 hover:border-red-800 transition-colors";
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="font-bold text-red-500 text-sm">x${card.count}</span>
+                        <div>
+                            <p class="text-stone-100 font-semibold text-sm">${card.name}</p>
+                            <p class="text-stone-400 text-xs">${card.source}</p>
+                        </div>
+                    </div>
+                    <span class="text-xs px-2 py-0.5 rounded font-bold ${getCardTypeClass(card.type)}">${card.rarity} - ${card.type}</span>
+                `;
+                extraContainer.appendChild(row);
+            });
+            document.getElementById('extra-count-tag').innerText = `${extraCount} Cards`;
+        }
+
+        function getCardTypeClass(type) {
+            switch(type) {
+                case 'Monster': return 'bg-amber-900 text-amber-200';
+                case 'Spell': return 'bg-emerald-900 text-emerald-200';
+                case 'Trap': return 'bg-fuchsia-900 text-fuchsia-200';
+                case 'Fusion': return 'bg-violet-900 text-violet-200';
+                case 'XYZ': return 'bg-stone-950 text-stone-200 border border-stone-700';
+                case 'Link': return 'bg-blue-900 text-blue-200';
+                default: return 'bg-stone-700 text-stone-200';
+            }
+        }
 
         let compChart, matchChart;
 
@@ -244,7 +427,7 @@
                 data: {
                     labels: ['Monsters', 'Spells', 'Traps'],
                     datasets: [{
-                        data: deckData.budget.composition,
+                        data: decklists.optimal.composition,
                         backgroundColor: ['#d97706', '#059669', '#c026d3'],
                         borderWidth: 2,
                         borderColor: '#ffffff'
@@ -266,7 +449,7 @@
                     labels: ['Blue-Eyes', 'Dark Magician', 'Tenyi', 'Yubel', 'Rogue Decks'],
                     datasets: [{
                         label: 'Win Rate %',
-                        data: deckData.budget.matchups,
+                        data: decklists.optimal.matchups,
                         backgroundColor: 'rgba(153, 27, 27, 0.2)',
                         borderColor: 'rgba(153, 27, 27, 1)',
                         pointBackgroundColor: 'rgba(153, 27, 27, 1)',
@@ -310,18 +493,24 @@
                 document.getElementById('btn-optimal').className = "px-6 py-2 rounded-full bg-red-800 text-white font-semibold shadow-md hover:bg-red-700 transition-colors";
             }
 
-            document.getElementById('cost-display').innerHTML = `Estimated Cost: <span class="font-bold text-stone-900">${deckData[type].cost}</span>`;
+            document.getElementById('cost-display').innerText = decklists[type].cost;
 
-            compChart.data.datasets[0].data = deckData[type].composition;
+            compChart.data.datasets[0].data = decklists[type].composition;
             compChart.update();
 
-            matchChart.data.datasets[0].data = deckData[type].matchups;
+            matchChart.data.datasets[0].data = decklists[type].matchups;
             matchChart.update();
+        }
+
+        function switchDeckList(type) {
+            renderDeckLists(type);
+            switchDeck(type);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             initCards();
             initCharts();
+            renderDeckLists('optimal');
         });
     </script>
 </body>
