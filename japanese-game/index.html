@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Japanese Game</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="stylesheet.css">
+    </head>
+    <body>
+
+        <div id="game-info">
+            <span>Time: <span id="time-display">30.0</span>s</span>
+            <span>Score: <span id="score-display">0</span></span>
+        </div>
+
+        <table>
+            <tr>
+                <td id="cell1"></td>
+                <td id="cell2"></td>
+                <td id="cell3"></td>
+                <td id="cell4"></td>
+            </tr>
+            <tr>
+                <td id="cell5"></td>
+                <td id="cell6"></td>
+                <td id="cell7"></td>
+                <td id="cell8"></td>
+            </tr>
+            <tr>
+                <td id="cell9"></td>
+                <td id="cell10"></td>
+                <td id="cell11"></td>
+                <td id="cell12"></td>
+            </tr>
+            <tr>
+                <td id="cell13"></td>
+                <td id="cell14"></td>
+                <td id="cell15"></td>
+                <td id="cell16"></td>
+            </tr>
+        </table>
+
+        <!-- New Start Modal -->
+        <div id="start-modal">
+            <div class="modal-content">
+                <h2>Hiragana Match</h2>
+                <p>Match the Hiragana to the correct Romaji!</p>
+                <button id="start-btn">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Existing End Modal -->
+        <div id="end-modal" class="hidden">
+            <div class="modal-content">
+                <h2>Game Over!</h2>
+                <p>Score: <span id="final-score"></span></p>
+                <p>Total Time: <span id="final-time"></span>s</p>
+                <button id="restart-btn">Restart</button>
+            </div>
+        </div>
+
+        <script src="script.js" async defer></script>
+
+    </body>
+</html>

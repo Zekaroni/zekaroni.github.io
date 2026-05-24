@@ -1,0 +1,141 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #ececec;
+    flex-direction: column;
+}
+
+#game-info {
+    position: absolute;
+    top: 20px;
+    font-size: 2rem;
+    font-family: sans-serif;
+    display: flex;
+    gap: 3rem;
+    font-weight: bold;
+}
+
+table {
+    width: 80vw;
+    height: 40vw;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 8px;
+}
+
+tr {
+    height: 25%;
+}
+
+td {
+    height: 10vw;
+    line-height: 2rem;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    padding: 1rem;
+    background-color: #e0e0e0;
+    border-top: 3px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-bottom: 3px solid #888888;
+    border-right: 3px solid #888888;
+    cursor: pointer;
+    user-select: none;
+    font-size: 2rem;
+    overflow: hidden;
+}
+
+td:active {
+    border-top: 3px solid #888888;
+    border-left: 3px solid #888888;
+    border-bottom: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+}
+
+td.clicked-color {
+    background-color: #8ab4f8;
+}
+
+.flash-red {
+    background-color: red !important;
+}
+
+.flash-green {
+    background-color: rgb(0, 255, 76) !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#end-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    font-family: sans-serif;
+}
+
+.modal-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.5rem;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+#restart-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: #8ab4f8;
+    border-radius: 8px;
+}
+
+#restart-btn:hover {
+    background-color: #6a9cf6;
+}
+
+#start-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    font-family: sans-serif;
+}
+
+#start-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: #8ab4f8;
+    border-radius: 8px;
+}
+
+#start-btn:hover {
+    background-color: #6a9cf6;
+}
