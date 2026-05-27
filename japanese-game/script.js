@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
@@ -101,6 +101,8 @@ onAuthStateChanged(auth, async (user) => {
             currentHighScore = docSnap.data().highScore || 0;
             document.getElementById("high-score-display").textContent = currentHighScore;
         }
+
+        fetchAndRenderLeaderboard();
     } else {
         currentUser = null;
         currentHighScore = 0;
@@ -109,6 +111,42 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById("start-btn").classList.add("hidden");
     }
 });
+
+async function fetchAndRenderLeaderboard() {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, orderBy("highScore", "desc"), limit(10));
+    const querySnapshot = await getDocs(q);
+    
+    const players = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const username = data.email.split('@')[0]; 
+        players.push({ name: username, score: data.highScore });
+    });
+    
+    renderLeaderboard(players);
+}
+
+function renderLeaderboard(playerData) {
+    const leaderboardList = document.getElementById("leaderboard-list");
+    if (!leaderboardList) return;
+    leaderboardList.innerHTML = ""; 
+
+    const sortedPlayers = [...playerData].sort((a, b) => b.score - a.score);
+
+    for (let i = 0; i < 10; i++) {
+        const listItem = document.createElement("li");
+
+        if (i < sortedPlayers.length) {
+            const player = sortedPlayers[i];
+            listItem.innerHTML = `<strong>${player.name}</strong> - ${player.score} pts`;
+        } else {
+            listItem.innerHTML = `<span style="color: #bbb;">--- Empty Slot ---</span>`;
+        }
+
+        leaderboardList.appendChild(listItem);
+    }
+}
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -198,6 +236,8 @@ async function endGame() {
         document.getElementById("high-score-display").textContent = currentHighScore; 
     }
 
+    fetchAndRenderLeaderboard();
+
     document.getElementById("end-modal").classList.remove("hidden");
     
     document.querySelectorAll('td').forEach(cell => {
@@ -212,19 +252,19 @@ function populateCells(kanaData) {
     singletonsMissingKana = [];
     let tiles = [];
 
-    const initialPairs = unusedData.splice(0, 7);
+    const initialPairs = unusedData.splice(0, 6);
     initialPairs.forEach(item => {
         tiles.push({ text: item.kana, matchId: item.id });
         tiles.push({ text: item.romaji, matchId: item.id });
     });
 
-    const kanaOnly = unusedData.splice(0, 1);
+    const kanaOnly = unusedData.splice(0, 2);
     kanaOnly.forEach(item => {
         tiles.push({ text: item.kana, matchId: item.id });
         singletonsMissingRomaji.push(item);
     });
 
-    const romajiOnly = unusedData.splice(0, 1);
+    const romajiOnly = unusedData.splice(0, 2);
     romajiOnly.forEach(item => {
         tiles.push({ text: item.romaji, matchId: item.id });
         singletonsMissingKana.push(item);
