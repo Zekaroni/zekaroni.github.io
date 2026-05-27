@@ -1,3 +1,24 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
+  authDomain: "japanese-game-ba74a.firebaseapp.com",
+  projectId: "japanese-game-ba74a",
+  storageBucket: "japanese-game-ba74a.firebasestorage.app",
+  messagingSenderId: "421986374043",
+  appId: "1:421986374043:web:8a76554eb70489e038513e",
+  measurementId: "G-0NTJXMZCVN"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null;
+let currentHighScore = 0;
+
 let fullKanaData = [];
 let unusedData = [];
 let singletonsMissingRomaji = [];
@@ -8,6 +29,86 @@ let totalTimePlayed = 0;
 let score = 0;
 let timerInterval = null;
 let isPlaying = false; 
+
+const usernameInput = document.getElementById("username-input");
+const passwordInput = document.getElementById("password-input");
+const authError = document.getElementById("auth-error");
+
+function getFakeEmail(username) {
+    const cleanUsername = username.trim().replace(/\s+/g, '').toLowerCase();
+    return `${cleanUsername}@hiraganamatch.internal`;
+}
+
+function getUsernameFromEmail(email) {
+    return email.split('@')[0];
+}
+
+document.getElementById("register-btn").addEventListener("click", () => {
+    authError.textContent = ""; 
+
+    if (!usernameInput.value) {
+        authError.textContent = "Please enter a username.";
+        return;
+    }
+    
+    if (passwordInput.value.length < 6) {
+        authError.textContent = "Password must be at least 6 characters long.";
+        return;
+    }
+
+    const fakeEmail = getFakeEmail(usernameInput.value);
+    
+    createUserWithEmailAndPassword(auth, fakeEmail, passwordInput.value)
+        .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+                authError.textContent = "That username is already taken!";
+            } else {
+                authError.textContent = error.message;
+            }
+        });
+});
+
+document.getElementById("login-btn").addEventListener("click", () => {
+    authError.textContent = ""; 
+    
+    if (!usernameInput.value) {
+        authError.textContent = "Please enter a username.";
+        return;
+    }
+    
+    const fakeEmail = getFakeEmail(usernameInput.value);
+    
+    signInWithEmailAndPassword(auth, fakeEmail, passwordInput.value)
+        .catch(error => authError.textContent = error.message);
+});
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+    signOut(auth);
+});
+
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        currentUser = user;
+        document.getElementById("auth-section").classList.add("hidden");
+        document.getElementById("user-info").classList.remove("hidden");
+        document.getElementById("start-btn").classList.remove("hidden");
+        
+        document.getElementById("display-username").textContent = getUsernameFromEmail(user.email);
+        
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            currentHighScore = docSnap.data().highScore || 0;
+            document.getElementById("high-score-display").textContent = currentHighScore;
+        }
+    } else {
+        currentUser = null;
+        currentHighScore = 0;
+        document.getElementById("auth-section").classList.remove("hidden");
+        document.getElementById("user-info").classList.add("hidden");
+        document.getElementById("start-btn").classList.add("hidden");
+    }
+});
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -80,13 +181,23 @@ function updateHUD() {
     document.getElementById("score-display").textContent = score;
 }
 
-function endGame() {
+async function endGame() {
     isPlaying = false;
     clearInterval(timerInterval);
     timerInterval = null;
 
     document.getElementById("final-score").textContent = score;
     document.getElementById("final-time").textContent = (totalTimePlayed / 10).toFixed(1);
+    
+    if (currentUser && score > currentHighScore) {
+        currentHighScore = score;
+        await setDoc(doc(db, "users", currentUser.uid), {
+            email: currentUser.email,
+            highScore: score
+        }, { merge: true });
+        document.getElementById("high-score-display").textContent = currentHighScore; 
+    }
+
     document.getElementById("end-modal").classList.remove("hidden");
     
     document.querySelectorAll('td').forEach(cell => {

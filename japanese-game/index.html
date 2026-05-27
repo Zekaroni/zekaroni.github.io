@@ -41,16 +41,25 @@
             </tr>
         </table>
 
-        <!-- New Start Modal -->
         <div id="start-modal">
             <div class="modal-content">
                 <h2>Hiragana Match</h2>
-                <p>Match the Hiragana to the correct Romaji!</p>
-                <button id="start-btn">Start Game</button>
+                <div id="auth-section">
+                    <input type="text" id="username-input" placeholder="Username" style="display:block; margin: 10px auto; padding: 5px;">
+                    <input type="password" id="password-input" placeholder="Password" style="display:block; margin: 10px auto; padding: 5px;">
+                    <button id="login-btn" style="margin: 5px;">Login</button>
+                    <button id="register-btn" style="margin: 5px;">Register</button>
+                    <p id="auth-error" style="color: red; font-size: 0.9rem;"></p>
+                </div>
+                <div id="user-info" class="hidden">
+                    <p>Logged in as: <span id="display-username"></span></p>
+                    <p>Personal High Score: <span id="high-score-display">0</span></p>
+                    <button id="logout-btn" style="margin-bottom: 15px;">Logout</button>
+                </div>
+                <button id="start-btn" class="hidden">Start Game</button>
             </div>
         </div>
 
-        <!-- Existing End Modal -->
         <div id="end-modal" class="hidden">
             <div class="modal-content">
                 <h2>Game Over!</h2>
@@ -60,7 +69,7 @@
             </div>
         </div>
 
-        <script src="script.js" async defer></script>
+        <script type="module" src="script.js"></script>
 
     </body>
 </html>
