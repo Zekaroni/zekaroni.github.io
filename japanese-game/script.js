@@ -110,7 +110,7 @@ onAuthStateChanged(auth, async (user) =>
         document.getElementById("user-info").classList.remove("hidden");
         document.getElementById("start-btn").classList.remove("hidden");
         
-        document.getElementById("display-username").textContent = getUsernameFromEmail(user.email);
+        document.getElementById("main-user-display").textContent = getUsernameFromEmail(user.email);
         
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);

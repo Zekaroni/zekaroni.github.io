@@ -8,10 +8,13 @@
         <link rel="stylesheet" href="stylesheet.css">
     </head>
     <body>
-
+        
         <div id="game-info">
+            <span><button id="menu-button" class="primary-button">Menu</button></span>
             <span>Time: <span id="time-display">30.0</span>s</span>
             <span>Score: <span id="score-display">0</span></span>
+            <span id="main-user-display"></span>
+            <button id="logout-btn" class="primary-button">Logout</button>
         </div>
 
         <table>
@@ -56,9 +59,7 @@
                     <p id="auth-error" style="color: red; font-size: 0.9rem;"></p>
                 </div>
                 <div id="user-info" class="hidden">
-                    <p>Logged in as: <span id="display-username"></span></p>
                     <p>Personal High Score: <span id="high-score-display">0</span></p>
-                    <button id="logout-btn" style="margin-bottom: 15px;">Logout</button>
                     
                     <div class="leaderboard-container" style="text-align: left; background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #ccc;">
                         <h3 style="margin-top: 0; text-align: center; color: #333;">Top 10 Players</h3>
@@ -68,7 +69,7 @@
                 <button id="start-btn" class="hidden">Start Game</button>
             </div>
         </div>
-
+        
         <div id="end-modal" class="hidden">
             <div class="modal-content">
                 <h2>Game Over!</h2>
@@ -77,9 +78,9 @@
                 <button id="restart-btn">Restart</button>
             </div>
         </div>
-
-
+        
+        
         <script type="module" src="script.js"></script>
-
+        
     </body>
 </html>
