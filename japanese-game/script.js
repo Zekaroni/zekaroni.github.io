@@ -101,6 +101,11 @@ document.getElementById("login-btn").addEventListener("click", () =>
 
 document.getElementById("logout-btn").addEventListener("click", () => { signOut(auth); });
 
+document.getElementById("menu-button").addEventListener("click", () =>
+{
+    document.getElementById("start-modal").classList.remove("hidden");
+});
+
 onAuthStateChanged(auth, async (user) =>
 {
     if (user)
@@ -129,6 +134,7 @@ onAuthStateChanged(auth, async (user) =>
         currentHighScore = 0;
         hiriganaMatchingHighscore = 0;
         katakanaMatchingHighscore = 0;
+        document.getElementById("main-user-display").textContent = "";
         document.getElementById("auth-section").classList.remove("hidden");
         document.getElementById("user-info").classList.add("hidden");
         document.getElementById("start-btn").classList.add("hidden");
