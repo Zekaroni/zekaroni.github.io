@@ -2,14 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
-  authDomain: "japanese-game-ba74a.firebaseapp.com",
-  projectId: "japanese-game-ba74a",
-  storageBucket: "japanese-game-ba74a.firebasestorage.app",
-  messagingSenderId: "421986374043",
-  appId: "1:421986374043:web:8a76554eb70489e038513e",
-  measurementId: "G-0NTJXMZCVN"
+const firebaseConfig =
+{
+    apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
+    authDomain: "japanese-game-ba74a.firebaseapp.com",
+    projectId: "japanese-game-ba74a",
+    storageBucket: "japanese-game-ba74a.firebasestorage.app",
+    messagingSenderId: "421986374043",
+    appId: "1:421986374043:web:8a76554eb70489e038513e",
+    measurementId: "G-0NTJXMZCVN"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -18,6 +19,9 @@ const db = getFirestore(app);
 
 let currentUser = null;   // Used to keep track of current username
 let currentHighScore = 0; // Highscore variable
+let currentMode = "katakana";
+let hiraganaHighScore = 0;
+let katakanaHighScore = 0;
 
 let fullKanaData = [];
 let unusedData = [];
@@ -30,70 +34,77 @@ let score = 0;
 let timerInterval = null;
 let isPlaying = false; 
 
-const usernameInput = document.getElementById("username-input");
-const passwordInput = document.getElementById("password-input");
-const authError = document.getElementById("auth-error");
+const usernameInput = document.getElementById("username-input"); // Username input box
+const passwordInput = document.getElementById("password-input"); // Password input box
+const authError = document.getElementById("auth-error");         // Sectionn to list ann error if one occurs when trying to log in
+const modeSelect = document.getElementById("mode-select");
 
-function getFakeEmail(username)
+function getPseudoEmail(username)
 { // This creates a fake "email" that is required for Firebase
+  // NOTE: May use actual emails to avoid botting
     const cleanUsername = username.trim().replace(/\s+/g, '').toLowerCase();
     return `${cleanUsername}@hiraganamatch.internal`;
-}
+};
 
 function getUsernameFromEmail(email)
-{ // 
+{ // Allows for an easy way to get the user's name
     return email.split('@')[0];
-}
+};
 
-document.getElementById("register-btn").addEventListener("click", () => {
+document.getElementById("register-btn").addEventListener("click", () =>
+{
     authError.textContent = ""; 
 
-    if (!usernameInput.value) {
+    if (!usernameInput.value)
+    { // If nothing is in the box, throw an error
         authError.textContent = "Please enter a username.";
         return;
     }
     
-    if (passwordInput.value.length < 6) {
+    if (passwordInput.value.length < 6)
+    { // If the password is really weak, throw an error
         authError.textContent = "Password must be at least 6 characters long.";
         return;
     }
 
-    const fakeEmail = getFakeEmail(usernameInput.value);
+    const pseudoEmail = getPseudoEmail(usernameInput.value);
     
-    createUserWithEmailAndPassword(auth, fakeEmail, passwordInput.value)
-        .catch(error => {
-            if (error.code === 'auth/email-already-in-use') {
+    createUserWithEmailAndPassword(auth, pseudoEmail, passwordInput.value)
+        .catch(error =>
+        {
+            if (error.code === 'auth/email-already-in-use')
+            { // User name is taken error
                 authError.textContent = "That username is already taken!";
-            } else {
+            } else
+            { // Any other error is displayed raw
                 authError.textContent = error.message;
             }
-        });
+        }
+    );
 });
 
 document.getElementById("login-btn").addEventListener("click", () =>
 {
     authError.textContent = ""; 
     
-    if (!usernameInput.value) {
+    if (!usernameInput.value)
+    { // Throw error if there is no username
         authError.textContent = "Please enter a username.";
         return;
     }
     
-    const fakeEmail = getFakeEmail(usernameInput.value);
+    const fakeEmail = getPseudoEmail(usernameInput.value);
     
     signInWithEmailAndPassword(auth, fakeEmail, passwordInput.value)
         .catch(error => authError.textContent = error.message);
-}
-);
+});
 
-document.getElementById("logout-btn").addEventListener("click", () =>
+document.getElementById("logout-btn").addEventListener("click", () => { signOut(auth); });
+
+onAuthStateChanged(auth, async (user) =>
 {
-    signOut(auth);
-}
-);
-
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
+    if (user)
+    { // Shows the logged in pop-up menu
         currentUser = user;
         document.getElementById("auth-section").classList.add("hidden");
         document.getElementById("user-info").classList.remove("hidden");
@@ -103,31 +114,40 @@ onAuthStateChanged(auth, async (user) => {
         
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            currentHighScore = docSnap.data().highScore || 0;
+        if (docSnap.exists())
+        { // Displays the players current high score
+            hiraganaHighScore = docSnap.data().hiraganaHighScore || 0;
+            katakanaHighScore = docSnap.data().katakanaHighScore || 0;
+            currentHighScore = currentMode === "katakana" ? katakanaHighScore : hiraganaHighScore;
             document.getElementById("high-score-display").textContent = currentHighScore;
         }
 
         fetchAndRenderLeaderboard();
-    } else {
+    } else
+    { // This is called when the user logs out so it hides all account info
         currentUser = null;
         currentHighScore = 0;
+        hiraganaHighScore = 0;
+        katakanaHighScore = 0;
         document.getElementById("auth-section").classList.remove("hidden");
         document.getElementById("user-info").classList.add("hidden");
         document.getElementById("start-btn").classList.add("hidden");
     }
 });
 
-async function fetchAndRenderLeaderboard() {
+async function fetchAndRenderLeaderboard()
+{
+    const scoreField = currentMode === "katakana" ? "katakanaHighScore" : "hiraganaHighScore";
     const usersRef = collection(db, "users");
-    const q = query(usersRef, orderBy("highScore", "desc"), limit(10));
-    const querySnapshot = await getDocs(q);
+    const highscoreDatabaseQuery = query(usersRef, orderBy(scoreField, "desc"), limit(10));
+    const queryResult = await getDocs(highscoreDatabaseQuery);
     
     const players = [];
-    querySnapshot.forEach((doc) => {
+    queryResult.forEach((doc) =>
+    {
         const data = doc.data();
         const username = data.email.split('@')[0]; 
-        players.push({ name: username, score: data.highScore });
+        players.push({ name: username, score: data[scoreField] || 0 });
     });
     
     renderLeaderboard(players);
@@ -140,22 +160,27 @@ function renderLeaderboard(playerData) {
 
     const sortedPlayers = [...playerData].sort((a, b) => b.score - a.score);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++)
+    {
         const listItem = document.createElement("li");
 
-        if (i < sortedPlayers.length) {
+        if (i < sortedPlayers.length)
+        {
             const player = sortedPlayers[i];
             listItem.innerHTML = `<strong>${player.name}</strong> - ${player.score} pts`;
-        } else {
+        } else
+        {
             listItem.innerHTML = `<span style="color: #bbb;">--- Empty Slot ---</span>`;
         }
 
         leaderboardList.appendChild(listItem);
     }
-}
+};
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffleArray(array)
+{
+    for (let i = array.length - 1; i > 0; i--)
+    {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
@@ -168,15 +193,22 @@ async function getKana(type)
     const csv = await response.text();
     const rows = csv.trim().split('\n').slice(1);
     
-    return rows.map(row => {
+    return rows.map(row =>
+    {
         const [id, kana, romaji] = row.split(',');
         return { id, kana, romaji };
-    });
+    }
+    );
 }
 
 window.onload = async function()
 {
-    fullKanaData = await getKana("katakana");
+    if (modeSelect)
+    {
+        currentMode = modeSelect.value;
+    }
+
+    fullKanaData = await getKana(currentMode);
     
     document.querySelectorAll('td').forEach(cell =>
     {
@@ -185,17 +217,38 @@ window.onload = async function()
     );
 };
 
-document.getElementById("start-btn").addEventListener("click", () => {
+if (modeSelect)
+{
+    modeSelect.addEventListener("change", async (e) =>
+    {
+        currentMode = e.target.value;
+        fullKanaData = await getKana(currentMode);
+        
+        if (currentUser)
+        {
+            currentHighScore = currentMode === "katakana" ? katakanaHighScore : hiraganaHighScore;
+            document.getElementById("high-score-display").textContent = currentHighScore;
+            fetchAndRenderLeaderboard();
+        }
+    });
+}
+
+document.getElementById("start-btn").addEventListener("click", () =>
+{
     document.getElementById("start-modal").classList.add("hidden");
     startGame();
-});
+}
+);
 
-document.getElementById("restart-btn").addEventListener("click", () => {
+document.getElementById("restart-btn").addEventListener("click", () =>
+{
     document.getElementById("end-modal").classList.add("hidden");
     startGame();
-});
+}
+);
 
-function startGame() {
+function startGame()
+{
     if (timerInterval) clearInterval(timerInterval); 
     
     isPlaying = true;
@@ -224,12 +277,14 @@ function startGame() {
     }, 100);
 }
 
-function updateHUD() {
+function updateHUD()
+{
     document.getElementById("time-display").textContent = (Math.max(0, timeLeft) / 10).toFixed(1);
     document.getElementById("score-display").textContent = score;
 }
 
-async function endGame() {
+async function endGame()
+{
     isPlaying = false;
     clearInterval(timerInterval);
     timerInterval = null;
@@ -239,9 +294,19 @@ async function endGame() {
     
     if (currentUser && score > currentHighScore) {
         currentHighScore = score;
+
+        if (currentMode === "katakana")
+        {
+            katakanaHighScore = score;
+        } else
+        {
+            hiraganaHighScore = score;
+        }
+
         await setDoc(doc(db, "users", currentUser.uid), {
             email: currentUser.email,
-            highScore: score
+            katakanaHighScore: katakanaHighScore,
+            hiraganaHighScore: hiraganaHighScore
         }, { merge: true });
         document.getElementById("high-score-display").textContent = currentHighScore; 
     }
@@ -339,15 +404,19 @@ document.querySelectorAll('td').forEach(cell => {
     });
 });
 
-function replaceMatchedCells(cell1, cell2) {
+function replaceMatchedCells(cell1, cell2)
+{
     if (!isPlaying) return;
 
-    if (unusedData.length === 0 && singletonsMissingRomaji.length === 0 && singletonsMissingKana.length === 0) {
+    if (unusedData.length === 0 && singletonsMissingRomaji.length === 0 && singletonsMissingKana.length === 0)
+        {
         unusedData = shuffleArray([...fullKanaData]);
     }
 
-    if (unusedData.length > 0) {
-        if (Math.random() > 0.5 && singletonsMissingRomaji.length > 0) {
+    if (unusedData.length > 0)
+    {
+        if (Math.random() > 0.5 && singletonsMissingRomaji.length > 0)
+        {
             const index = Math.floor(Math.random() * singletonsMissingRomaji.length);
             const itemToPromote = singletonsMissingRomaji.splice(index, 1)[0];
             
@@ -359,7 +428,8 @@ function replaceMatchedCells(cell1, cell2) {
             cell2.dataset.matchId = newItem.id;
             singletonsMissingRomaji.push(newItem);
             
-        } else if (singletonsMissingKana.length > 0) {
+        } else if (singletonsMissingKana.length > 0)
+        {
             const index = Math.floor(Math.random() * singletonsMissingKana.length);
             const itemToPromote = singletonsMissingKana.splice(index, 1)[0];
             
@@ -371,8 +441,10 @@ function replaceMatchedCells(cell1, cell2) {
             cell2.dataset.matchId = newItem.id;
             singletonsMissingKana.push(newItem);
         }
-    } else {
-        if (singletonsMissingRomaji.length > 0 && singletonsMissingKana.length > 0) {
+    } else
+    {
+        if (singletonsMissingRomaji.length > 0 && singletonsMissingKana.length > 0)
+        {
             const item1 = singletonsMissingRomaji.pop();
             const item2 = singletonsMissingKana.pop();
             
@@ -381,7 +453,8 @@ function replaceMatchedCells(cell1, cell2) {
             
             cell2.textContent = item2.kana;   
             cell2.dataset.matchId = item2.id;
-        } else {
+        } else
+        {
             cell1.textContent = "";
             cell2.textContent = "";
             cell1.style.pointerEvents = "none";
@@ -395,14 +468,16 @@ function replaceMatchedCells(cell1, cell2) {
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function flashCellRed(cell) {
+async function flashCellRed(cell)
+{
     cell.classList.remove("clicked-color");
     cell.classList.add('flash-red');
     await sleep(200);
     cell.classList.remove('flash-red');
 }
 
-async function flashCellGreen(cell) {
+async function flashCellGreen(cell)
+{
     cell.classList.remove("clicked-color");
     cell.classList.add('flash-green');
     await sleep(100);
