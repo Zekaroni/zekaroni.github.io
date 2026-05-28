@@ -123,6 +123,12 @@ onAuthStateChanged(auth, async (user) =>
         { // Displays the players current high score
             hiriganaMatchingHighscore = docSnap.data().hiriganaMatchingHighscore || 0;
             katakanaMatchingHighscore = docSnap.data().katakanaMatchingHighscore || 0;
+            
+            // Pull mode directly from UI to prevent race condition overrides
+            if (modeSelect) {
+                currentMode = modeSelect.value;
+            }
+            
             currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiriganaMatchingHighscore;
             document.getElementById("high-score-display").textContent = currentHighScore;
         }
@@ -215,6 +221,13 @@ window.onload = async function()
     }
 
     fullKanaData = await getKana(currentMode);
+    
+    if (currentUser)
+    {
+        currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiriganaMatchingHighscore;
+        document.getElementById("high-score-display").textContent = currentHighScore;
+        fetchAndRenderLeaderboard();
+    }
     
     document.querySelectorAll('td').forEach(cell =>
     {

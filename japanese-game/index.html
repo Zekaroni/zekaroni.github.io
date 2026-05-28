@@ -5,7 +5,7 @@
         <title>Japanese Game</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="stylesheet.css">
+        <link rel="stylesheet" href="stylesheet.css?v=2">
     </head>
     <body>
         
@@ -14,7 +14,7 @@
                 <span><button id="menu-button" class="primary-button">Menu</button></span>
                 <span>Time: <span id="time-display">30.0</span>s</span>
                 <span>Score: <span id="score-display">0</span></span>
-                <span id="main-user-display"></span>
+                <span id="main-user-display" style="color: #333;"></span>
             </div>
             
             <table>
@@ -65,9 +65,9 @@
                             <h3 style="margin-top: 0; text-align: center; color: #333; font-size: 2cqw;">Top 10 Players</h3>
                             <ol id="leaderboard-list" style="font-size: 1.5cqw; padding-left: 2.5cqw; margin-bottom: 0; color: #333;"></ol>
                         </div>
+                        <button id="logout-btn" class="primary-button">Logout</button>
                     </div>
                     <button id="start-btn" class="primary-button hidden" style="margin-top: 1.5cqw;">Start Game</button>
-                    <button id="logout-btn" class="primary-button">Logout</button>
                 </div>
             </div>
             
@@ -81,7 +81,7 @@
             </div>
         </div>
         
-        <script type="module" src="script.js"></script>
+        <script type="module" src="script.js?v=2"></script>
         
     </body>
 </html>
