@@ -16,8 +16,8 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let currentUser = null;
-let currentHighScore = 0;
+let currentUser = null;   // Used to keep track of current username
+let currentHighScore = 0; // Highscore variable
 
 let fullKanaData = [];
 let unusedData = [];
@@ -34,12 +34,14 @@ const usernameInput = document.getElementById("username-input");
 const passwordInput = document.getElementById("password-input");
 const authError = document.getElementById("auth-error");
 
-function getFakeEmail(username) {
+function getFakeEmail(username)
+{ // This creates a fake "email" that is required for Firebase
     const cleanUsername = username.trim().replace(/\s+/g, '').toLowerCase();
     return `${cleanUsername}@hiraganamatch.internal`;
 }
 
-function getUsernameFromEmail(email) {
+function getUsernameFromEmail(email)
+{ // 
     return email.split('@')[0];
 }
 
@@ -68,7 +70,8 @@ document.getElementById("register-btn").addEventListener("click", () => {
         });
 });
 
-document.getElementById("login-btn").addEventListener("click", () => {
+document.getElementById("login-btn").addEventListener("click", () =>
+{
     authError.textContent = ""; 
     
     if (!usernameInput.value) {
@@ -80,11 +83,14 @@ document.getElementById("login-btn").addEventListener("click", () => {
     
     signInWithEmailAndPassword(auth, fakeEmail, passwordInput.value)
         .catch(error => authError.textContent = error.message);
-});
+}
+);
 
-document.getElementById("logout-btn").addEventListener("click", () => {
+document.getElementById("logout-btn").addEventListener("click", () =>
+{
     signOut(auth);
-});
+}
+);
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -156,8 +162,9 @@ function shuffleArray(array) {
     return array;
 }
 
-async function getHiragana() {
-    const response = await fetch('./data/hiragana.csv');
+async function getKana(type)
+{
+    const response = await fetch(`./data/${type}.csv`);
     const csv = await response.text();
     const rows = csv.trim().split('\n').slice(1);
     
@@ -167,12 +174,15 @@ async function getHiragana() {
     });
 }
 
-window.onload = async function() {
-    fullKanaData = await getHiragana();
+window.onload = async function()
+{
+    fullKanaData = await getKana("katakana");
     
-    document.querySelectorAll('td').forEach(cell => {
+    document.querySelectorAll('td').forEach(cell =>
+    {
         cell.style.pointerEvents = "none";
-    });
+    }
+    );
 };
 
 document.getElementById("start-btn").addEventListener("click", () => {
