@@ -1,0 +1,134 @@
+#game-wrapper {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    max-width: calc(100vh * (16 / 10));
+    max-height: 100vh;
+    container-type: inline-size;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-info {
+    position: absolute;
+    top: 5cqw;
+    font-size: 3cqw;
+    display: flex;
+    gap: 3cqw;
+    font-weight: bold;
+}
+
+.primary-button {
+    margin-top: 1cqw;
+    padding: 1cqw 2cqw;
+    font-size: 1.5cqw;
+    cursor: pointer;
+    border: none;
+    background-color: #8ab4f8;
+    border-radius: 0.8cqw;
+}
+
+.primary-button:hover {
+    background-color: #6a9cf6;
+}
+
+.secondary-button {
+    background-color: #ccc;
+}
+
+.secondary-button:hover {
+    background-color: #bbb;
+}
+
+table {
+    width: 80cqw;
+    height: 40cqw;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0.8cqw;
+    margin-top: 8cqw;
+}
+
+tr {
+    height: 25%;
+}
+
+td {
+    height: 10cqw;
+    line-height: 2cqw;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    padding: 1cqw;
+    background-color: #f3f1e4;
+    border-top: 0.3cqw solid #ffffff;
+    border-left: 0.3cqw solid #ffffff;
+    border-bottom: 0.3cqw solid #888888;
+    border-right: 0.3cqw solid #888888;
+    cursor: pointer;
+    user-select: none;
+    font-size: 2.5cqw;
+    overflow: hidden;
+}
+
+td:active {
+    border-top: 0.3cqw solid #888888;
+    border-left: 0.3cqw solid #888888;
+    border-bottom: 0.3cqw solid #ffffff;
+    border-right: 0.3cqw solid #ffffff;
+}
+
+td.clicked-color {
+    background-color: #a9badb;
+}
+
+.flash-red { background-color: red !important; }
+.flash-green { background-color: rgb(0, 255, 76) !important; }
+
+#main-user-display { color: #333; }
+
+#mode-select { 
+    margin-bottom: 1.5cqw; 
+    font-size: 1.5cqw; 
+    padding: 0.5cqw; 
+}
+
+.modal-text { font-size: 1.5cqw; }
+
+.leaderboard-container {
+    text-align: left;
+    background: #f9f9f9;
+    padding: 1.5cqw;
+    border-radius: 0.8cqw;
+    margin-bottom: 1.5cqw;
+    border: 0.1cqw solid #ccc;
+}
+
+.leaderboard-container h3 {
+    margin-top: 0;
+    text-align: center;
+    color: #333;
+    font-size: 2cqw;
+}
+
+#leaderboard-list {
+    font-size: 1.5cqw;
+    padding-left: 2.5cqw;
+    margin-bottom: 0;
+    color: #333;
+}
+
+#guest-warning {
+    color: #666;
+    font-size: 1.2cqw;
+    font-style: italic;
+}
+
+.modal-button-group {
+    display: flex;
+    gap: 1cqw;
+    justify-content: center;
+    margin-top: 1.5cqw;
+}

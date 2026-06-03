@@ -1,7 +1,7 @@
-import { auth, db } from "./firebase-init.js";
+import { auth, db } from "../main_scripts/firebase-init.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { fetchAndRenderLeaderboard } from "./leaderboard.js";
+import { fetchAndRenderLeaderboard } from "../main_scripts/leaderboard.js";
 
 // --- Game State ---
 let currentUser = null;
@@ -303,7 +303,7 @@ function shuffleArray(array) {
 }
 
 async function fetchKanaData(type) {
-    const response = await fetch(`./data/${type}.csv`);
+    const response = await fetch(`../data/${type}.csv`);
     const csv = await response.text();
     return csv.trim().split('\n').slice(1).map(row => {
         const [id, kana, romaji] = row.split(',');

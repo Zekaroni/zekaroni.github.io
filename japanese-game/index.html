@@ -2,99 +2,37 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Placeholder Name - Main Menu</title>
+        <title>Main Menu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="stylesheet.css">
+        <link rel="stylesheet" href="home_page.css">
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
         
         <div id="menu-wrapper">
             <h1>Placeholder Name</h1>
-            <p id="user-status" style="font-size: 1.5cqw; color: #333; font-weight: bold; margin-bottom: 2cqw;">Checking login...</p>
+            <p id="user-status">Checking login...</p>
             
-            <button class="menu-button" onclick="window.location.href='singleplayer.html'">Single Player (Guest Allowed)</button>
-            <button id="btn-multiplayer" class="menu-button disabled-btn">Multiplayer (Login Required)</button>
-            <button id="btn-profile" class="menu-button disabled-btn">Profile (Login Required)</button>
+            <button class="menu-button" onclick="window.location.href='singleplayer.html'">Single Player</button>
+            <button id="btn-multiplayer" class="menu-button disabled-btn">Multiplayer</button>
+            <button id="btn-profile" class="menu-button disabled-btn">Profile</button>
             
-            <button id="btn-login-ui" class="menu-button hidden" style="background-color: #f8b48a; margin-top: 3cqw;">Login / Register</button>
-            <button id="btn-logout-ui" class="menu-button hidden" style="background-color: #f88a8a; margin-top: 3cqw;">Logout</button>
+            <button id="btn-login-ui" class="menu-button login-ui-btn hidden">Login / Register</button>
+            <button id="btn-logout-ui" class="menu-button logout-ui-btn hidden">Logout</button>
 
             <div id="auth-modal" class="hidden">
                 <div class="modal-content">
-                    <h2 style="margin-top:0;">Account Access</h2>
-                    <input type="text" id="username-input" placeholder="Username" style="display:block; margin: 1cqw auto; padding: 0.5cqw; font-size: 1.5cqw; width: 20cqw;">
-                    <input type="password" id="password-input" placeholder="Password" style="display:block; margin: 1cqw auto; padding: 0.5cqw; font-size: 1.5cqw; width: 20cqw;">
-                    <button id="login-submit" class="menu-button" style="width:auto; padding: 1cqw 2cqw; margin: 0.5cqw;">Login</button>
-                    <button id="register-submit" class="menu-button" style="width:auto; padding: 1cqw 2cqw; margin: 0.5cqw;">Register</button>
-                    <p id="auth-error" style="color: red; font-size: 1.2cqw;"></p>
-                    <button id="close-modal" style="display:block; margin: 2cqw auto 0 auto; cursor:pointer; font-size: 1.2cqw; background:none; border:none; text-decoration:underline;">Cancel</button>
+                    <h2>Account Access</h2>
+                    <input type="text" id="username-input" class="modal-input" placeholder="Username">
+                    <input type="password" id="password-input" class="modal-input" placeholder="Password">
+                    <button id="login-submit" class="menu-button modal-submit-btn">Login</button>
+                    <button id="register-submit" class="menu-button modal-submit-btn">Register</button>
+                    <p id="auth-error"></p>
+                    <button id="close-modal">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <script type="module">
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-            import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-            const firebaseConfig = {
-                apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
-                authDomain: "japanese-game-ba74a.firebaseapp.com",
-                projectId: "japanese-game-ba74a",
-                storageBucket: "japanese-game-ba74a.firebasestorage.app",
-                messagingSenderId: "421986374043",
-                appId: "1:421986374043:web:8a76554eb70489e038513e",
-                measurementId: "G-0NTJXMZCVN"
-            };
-
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-
-            const getPseudoEmail = (username) => `${username.trim().replace(/\s+/g, '').toLowerCase()}@hiraganamatch.internal`;
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    document.getElementById('user-status').textContent = "Logged in as: " + user.email.split('@')[0];
-                    document.getElementById('btn-multiplayer').classList.remove('disabled-btn');
-                    document.getElementById('btn-multiplayer').onclick = () => window.location.href = './KanaMatching';
-                    document.getElementById('btn-profile').classList.remove('disabled-btn');
-                    document.getElementById('btn-profile').onclick = () => window.location.href = 'profile.html';
-                    
-                    document.getElementById('btn-login-ui').classList.add('hidden');
-                    document.getElementById('btn-logout-ui').classList.remove('hidden');
-                    document.getElementById('auth-modal').classList.add('hidden');
-                } else {
-                    document.getElementById('user-status').textContent = "Not logged in";
-                    document.getElementById('btn-multiplayer').classList.add('disabled-btn');
-                    document.getElementById('btn-multiplayer').onclick = null;
-                    document.getElementById('btn-profile').classList.add('disabled-btn');
-                    document.getElementById('btn-profile').onclick = null;
-                    
-                    document.getElementById('btn-login-ui').classList.remove('hidden');
-                    document.getElementById('btn-logout-ui').classList.add('hidden');
-                }
-            });
-
-            // UI Listeners
-            document.getElementById('btn-login-ui').onclick = () => {
-                document.getElementById('auth-modal').classList.remove('hidden');
-                document.getElementById('auth-error').textContent = "";
-            };
-            document.getElementById('close-modal').onclick = () => document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('btn-logout-ui').onclick = () => signOut(auth);
-
-            document.getElementById('register-submit').onclick = () => {
-                const user = document.getElementById('username-input').value;
-                const pass = document.getElementById('password-input').value;
-                if (!user || pass.length < 6) return document.getElementById('auth-error').textContent = "Invalid username or short password.";
-                createUserWithEmailAndPassword(auth, getPseudoEmail(user), pass).catch(e => document.getElementById('auth-error').textContent = e.message);
-            };
-
-            document.getElementById('login-submit').onclick = () => {
-                const user = document.getElementById('username-input').value;
-                const pass = document.getElementById('password-input').value;
-                if (!user) return document.getElementById('auth-error').textContent = "Please enter a username.";
-                signInWithEmailAndPassword(auth, getPseudoEmail(user), pass).catch(e => document.getElementById('auth-error').textContent = e.message);
-            };
-        </script>
+        <script type="module" src="home_page.js"></script>
     </body>
 </html>

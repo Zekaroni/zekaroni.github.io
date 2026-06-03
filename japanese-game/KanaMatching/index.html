@@ -2,10 +2,11 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Kana Match - Single Player</title>
+        <title>Ranked Kana Match</title>
         <meta name="description" content="Learn Japanese Kana through matching">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../stylesheet.css">
+        <link rel="stylesheet" href="./kana_matching.css">
+        <link rel="stylesheet" href="../main.css">
     </head>
     <body>
         
@@ -14,7 +15,7 @@
                 <span><button id="menu-button" class="primary-button" onclick="window.location.href='index.html'">Main Menu</button></span>
                 <span>Time: <span id="time-display">30.0</span>s</span>
                 <span>Score: <span id="score-display">0</span></span>
-                <span id="main-user-display" style="color: #333;"></span>
+                <span id="main-user-display"></span>
             </div>
             
             <table>
@@ -36,24 +37,24 @@
                 <div class="modal-content">
                     <h2>Kana Match</h2>
                     
-                    <select id="mode-select" style="margin-bottom: 1.5cqw; font-size: 1.5cqw; padding: 0.5cqw;">
+                    <select id="mode-select">
                         <option value="katakana">Katakana</option>
                         <option value="hiragana">Hiragana</option>
                     </select>
 
                     <div id="user-stats" class="hidden">
-                        <p style="font-size: 1.5cqw;">Personal High Score: <span id="high-score-display">0</span></p>
+                        <p class="modal-text">Personal High Score: <span id="high-score-display">0</span></p>
                         
-                        <div class="leaderboard-container" style="text-align: left; background: #f9f9f9; padding: 1.5cqw; border-radius: 0.8cqw; margin-bottom: 1.5cqw; border: 0.1cqw solid #ccc;">
-                            <h3 style="margin-top: 0; text-align: center; color: #333; font-size: 2cqw;">Top 10 Players</h3>
-                            <ol id="leaderboard-list" style="font-size: 1.5cqw; padding-left: 2.5cqw; margin-bottom: 0; color: #333;"></ol>
+                        <div class="leaderboard-container">
+                            <h3>Top 10 Players</h3>
+                            <ol id="leaderboard-list"></ol>
                         </div>
                     </div>
 
-                    <p id="guest-warning" class="hidden" style="color: #666; font-size: 1.2cqw; font-style: italic;">Playing as Guest. Scores will not be saved on the Leaderboard.</p>
+                    <p id="guest-warning" class="hidden">Playing as Guest. Scores will not be saved on the Leaderboard.</p>
                     
-                    <div style="display: flex; gap: 1cqw; justify-content: center; margin-top: 1.5cqw;">
-                        <button class="primary-button" style="background-color:#ccc;" onclick="window.location.href='../'">Main Menu</button>
+                    <div class="modal-button-group">
+                        <button class="primary-button secondary-button" onclick="window.location.href='../'">Main Menu</button>
                         <button id="start-btn" class="primary-button">Start Game</button>
                     </div>
                 </div>
@@ -62,10 +63,10 @@
             <div id="end-modal" class="hidden">
                 <div class="modal-content">
                     <h2>Game Over!</h2>
-                    <p style="font-size: 1.5cqw;">Score: <span id="final-score"></span></p>
-                    <p style="font-size: 1.5cqw;">Total Time: <span id="final-time"></span>s</p>
+                    <p class="modal-text">Score: <span id="final-score"></span></p>
+                    <p class="modal-text">Total Time: <span id="final-time"></span>s</p>
                     <button id="restart-btn" class="primary-button">Play Again</button>
-                    <button class="primary-button" style="background-color:#ccc;" onclick="window.location.href='index.html'">Main Menu</button>
+                    <button class="primary-button secondary-button" onclick="window.location.href='index.html'">Main Menu</button>
                 </div>
             </div>
         </div>
