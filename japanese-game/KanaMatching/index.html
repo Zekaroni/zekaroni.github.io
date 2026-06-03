@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Kana Match - Single Player</title>
+        <meta name="description" content="Learn Japanese Kana through matching">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../stylesheet.css">
+    </head>
+    <body>
+        
+        <div id="game-wrapper">
+            <div id="game-info">
+                <span><button id="menu-button" class="primary-button" onclick="window.location.href='index.html'">Main Menu</button></span>
+                <span>Time: <span id="time-display">30.0</span>s</span>
+                <span>Score: <span id="score-display">0</span></span>
+                <span id="main-user-display" style="color: #333;"></span>
+            </div>
+            
+            <table>
+                <tr>
+                    <td id="cell1"></td><td id="cell2"></td><td id="cell3"></td><td id="cell4"></td>
+                </tr>
+                <tr>
+                    <td id="cell5"></td><td id="cell6"></td><td id="cell7"></td><td id="cell8"></td>
+                </tr>
+                <tr>
+                    <td id="cell9"></td><td id="cell10"></td><td id="cell11"></td><td id="cell12"></td>
+                </tr>
+                <tr>
+                    <td id="cell13"></td><td id="cell14"></td><td id="cell15"></td><td id="cell16"></td>
+                </tr>
+            </table>
+            
+            <div id="start-modal">
+                <div class="modal-content">
+                    <h2>Kana Match</h2>
+                    
+                    <select id="mode-select" style="margin-bottom: 1.5cqw; font-size: 1.5cqw; padding: 0.5cqw;">
+                        <option value="katakana">Katakana</option>
+                        <option value="hiragana">Hiragana</option>
+                    </select>
+
+                    <div id="user-stats" class="hidden">
+                        <p style="font-size: 1.5cqw;">Personal High Score: <span id="high-score-display">0</span></p>
+                        
+                        <div class="leaderboard-container" style="text-align: left; background: #f9f9f9; padding: 1.5cqw; border-radius: 0.8cqw; margin-bottom: 1.5cqw; border: 0.1cqw solid #ccc;">
+                            <h3 style="margin-top: 0; text-align: center; color: #333; font-size: 2cqw;">Top 10 Players</h3>
+                            <ol id="leaderboard-list" style="font-size: 1.5cqw; padding-left: 2.5cqw; margin-bottom: 0; color: #333;"></ol>
+                        </div>
+                    </div>
+
+                    <p id="guest-warning" class="hidden" style="color: #666; font-size: 1.2cqw; font-style: italic;">Playing as Guest. Scores will not be saved on the Leaderboard.</p>
+                    
+                    <div style="display: flex; gap: 1cqw; justify-content: center; margin-top: 1.5cqw;">
+                        <button class="primary-button" style="background-color:#ccc;" onclick="window.location.href='../'">Main Menu</button>
+                        <button id="start-btn" class="primary-button">Start Game</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="end-modal" class="hidden">
+                <div class="modal-content">
+                    <h2>Game Over!</h2>
+                    <p style="font-size: 1.5cqw;">Score: <span id="final-score"></span></p>
+                    <p style="font-size: 1.5cqw;">Total Time: <span id="final-time"></span>s</p>
+                    <button id="restart-btn" class="primary-button">Play Again</button>
+                    <button class="primary-button" style="background-color:#ccc;" onclick="window.location.href='index.html'">Main Menu</button>
+                </div>
+            </div>
+        </div>
+        
+        <script type="module" src="kanaMatch.js"></script>
+        
+    </body>
+</html>
