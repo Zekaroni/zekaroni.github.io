@@ -12,7 +12,7 @@ onAuthStateChanged(auth,
         {
             document.getElementById('user-status').textContent = "Logged in as: " + user.email.split('@')[0];
             document.getElementById('btn-profile').classList.remove('disabled-btn');
-            document.getElementById('btn-profile').onclick = () => window.location.href = './profile';
+            document.getElementById('btn-profile').onclick = () => window.location.href = './Profile';
             
             document.getElementById('btn-login-ui').classList.add('hidden');
             
