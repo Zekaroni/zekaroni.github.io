@@ -236,7 +236,7 @@ async function handleCellClick(cell) {
             
             let timeGain = Math.max(5,
                 Math.round(
-                    15 * Math.pow(0.975, score)
+                    30 * Math.pow(0.943, score)
                 )
             )
 
