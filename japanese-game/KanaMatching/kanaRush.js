@@ -234,8 +234,14 @@ async function handleCellClick(cell) {
             cell1.classList.add("matched");
             cell2.classList.add("matched");
             
+            let timeGain = Math.max(5,
+                Math.round(
+                    15 * Math.pow(0.975, score)
+                )
+            )
+
             score++;
-            timeLeft += 10; 
+            timeLeft += timeGain; 
             updateHUD();
 
             await Promise.all([flashCell(cell1, 'green'), flashCell(cell2, 'green')]);
