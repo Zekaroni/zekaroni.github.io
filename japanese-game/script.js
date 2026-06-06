@@ -20,7 +20,7 @@ const db = getFirestore(app);
 let currentUser = null;   // Used to keep track of current username
 let currentHighScore = 0; // Highscore variable
 let currentMode = "katakana";
-let hiraganaMatchingHighscore = 0;
+let hiriganaMatchingHighscore = 0;
 let katakanaMatchingHighscore = 0;
 
 let fullKanaData = [];
@@ -121,7 +121,7 @@ onAuthStateChanged(auth, async (user) =>
         const docSnap = await getDoc(docRef);
         if (docSnap.exists())
         { // Displays the players current high score
-            hiraganaMatchingHighscore = docSnap.data().hiraganaMatchingHighscore || 0;
+            hiriganaMatchingHighscore = docSnap.data().hiriganaMatchingHighscore || 0;
             katakanaMatchingHighscore = docSnap.data().katakanaMatchingHighscore || 0;
             
             // Pull mode directly from UI to prevent race condition overrides
@@ -129,7 +129,7 @@ onAuthStateChanged(auth, async (user) =>
                 currentMode = modeSelect.value;
             }
             
-            currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiraganaMatchingHighscore;
+            currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiriganaMatchingHighscore;
             document.getElementById("high-score-display").textContent = currentHighScore;
         }
 
@@ -138,7 +138,7 @@ onAuthStateChanged(auth, async (user) =>
     { // This is called when the user logs out so it hides all account info
         currentUser = null;
         currentHighScore = 0;
-        hiraganaMatchingHighscore = 0;
+        hiriganaMatchingHighscore = 0;
         katakanaMatchingHighscore = 0;
         document.getElementById("main-user-display").textContent = "";
         document.getElementById("auth-section").classList.remove("hidden");
@@ -149,7 +149,7 @@ onAuthStateChanged(auth, async (user) =>
 
 async function fetchAndRenderLeaderboard()
 {
-    const scoreField = currentMode === "katakana" ? "katakanaMatchingHighscore" : "hiraganaMatchingHighscore";
+    const scoreField = currentMode === "katakana" ? "katakanaMatchingHighscore" : "hiriganaMatchingHighscore";
     const usersRef = collection(db, "users");
     const highscoreDatabaseQuery = query(usersRef, orderBy(scoreField, "desc"), limit(10));
     const queryResult = await getDocs(highscoreDatabaseQuery);
@@ -224,7 +224,7 @@ window.onload = async function()
     
     if (currentUser)
     {
-        currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiraganaMatchingHighscore;
+        currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiriganaMatchingHighscore;
         document.getElementById("high-score-display").textContent = currentHighScore;
         fetchAndRenderLeaderboard();
     }
@@ -245,7 +245,7 @@ if (modeSelect)
         
         if (currentUser)
         {
-            currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiraganaMatchingHighscore;
+            currentHighScore = currentMode === "katakana" ? katakanaMatchingHighscore : hiriganaMatchingHighscore;
             document.getElementById("high-score-display").textContent = currentHighScore;
             fetchAndRenderLeaderboard();
         }
@@ -319,13 +319,13 @@ async function endGame()
             katakanaMatchingHighscore = score;
         } else
         {
-            hiraganaMatchingHighscore = score;
+            hiriganaMatchingHighscore = score;
         }
 
         await setDoc(doc(db, "users", currentUser.uid), {
             email: currentUser.email,
             katakanaMatchingHighscore: katakanaMatchingHighscore,
-            hiraganaMatchingHighscore: hiraganaMatchingHighscore
+            hiriganaMatchingHighscore: hiriganaMatchingHighscore
         }, { merge: true });
         document.getElementById("high-score-display").textContent = currentHighScore; 
     }
