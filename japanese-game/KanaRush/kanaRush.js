@@ -99,7 +99,7 @@ onAuthStateChanged(auth,
             {
                 const data = docSnap.data();
                 highScores.hiragana = data.hiraganaMatchingHighscore || 0;
-                highScores.katakana = data.katakanaMatchingHighscore || 0;
+                highScores.katakana = data.kataKanaRushHighscore || 0;
                 updateHighScoreDisplay();
             }
             
@@ -203,7 +203,7 @@ async function endGame()
             doc(db, "users", currentUser.uid),
             {
                 email: currentUser.email,
-                katakanaMatchingHighscore: highScores.katakana,
+                kataKanaRushHighscore: highScores.katakana,
                 hiraganaMatchingHighscore: highScores.hiragana
             },
             { merge: true }
