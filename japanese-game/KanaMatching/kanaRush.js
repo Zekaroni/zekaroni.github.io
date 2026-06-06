@@ -17,13 +17,13 @@ let highScores = {
 };
 
 let score           = 0;
-let timeLeft        = 300;
-let totalTimePlayed = 0;
-let timerInterval   = null;
+let timeLeft        = 300;   // Stored in deci-seconds for precision clock
+let totalTimePlayed = 0;     // Also deci-seconds
+let timerInterval   = null;  // This will be a 100 ms interval
 let isPlaying       = false;
 
 // --- DOM Elements ---
-const modeSelect       = document.getElementById("mode-select");
+const modeSelect       = document.getElementById("mode-select");        // Kana dropdown (NOTE: May change this to a radio set )
 const highScoreDisplay = document.getElementById("high-score-display");
 const timeDisplay      = document.getElementById("time-display");
 const scoreDisplay     = document.getElementById("score-display");
