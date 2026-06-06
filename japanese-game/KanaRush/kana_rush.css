@@ -153,3 +153,8 @@ td.clicked-color {
     color: white;
     text-shadow: 0 0.5cqw 2cqw rgba(0, 0, 0, 0.5);
 }
+
+td:hover:not(.clicked-color):not(.matched) {
+    background-color: #c7c5b8;
+    transition: background-color 0.1s ease-in-out;
+}
