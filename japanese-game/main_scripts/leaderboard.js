@@ -40,7 +40,7 @@ function renderLeaderboard(playerData)
         if (i < sortedPlayers.length)
         {
             const player = sortedPlayers[i];
-            listItem.innerHTML = `<strong><a href="../profile/?user=${player.name}" style="color: #8ab4f8; text-decoration: none;">${player.name}</a></strong> - ${player.score} pts`;
+            listItem.innerHTML = `<strong><a href="../Profile/?user=${player.name}" style="color: #8ab4f8; text-decoration: none;">${player.name}</a></strong> - ${player.score} pts`;
         } else {
             listItem.innerHTML = `<span style="color: #bbb;">--- Empty Slot ---</span>`;
         }
