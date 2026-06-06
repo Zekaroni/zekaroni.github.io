@@ -2,17 +2,17 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Ranked Kana Match</title>
+        <title>Kana Rush</title>
         <meta name="description" content="Learn Japanese Kana through matching">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./kana_matching.css">
+        <link rel="stylesheet" href="./kana_rush.css">
         <link rel="stylesheet" href="../main.css">
     </head>
     <body>
         
         <div id="game-wrapper">
             <div id="game-info">
-                <span><button id="menu-button" class="primary-button" onclick="window.location.href='index.html'">Main Menu</button></span>
+                <span><button id="quit-button" class="primary-button" onclick="window.location.href='./'">Quit</button></span>
                 <span>Time: <span id="time-display">30.0</span>s</span>
                 <span>Score: <span id="score-display">0</span></span>
                 <span id="main-user-display"></span>
@@ -35,7 +35,7 @@
             
             <div id="start-modal">
                 <div class="modal-content">
-                    <h2>Kana Match</h2>
+                    <h2>Kana Rush</h2>
                     
                     <select id="mode-select">
                         <option value="katakana">Katakana</option>
@@ -66,12 +66,16 @@
                     <p class="modal-text">Score: <span id="final-score"></span></p>
                     <p class="modal-text">Total Time: <span id="final-time"></span>s</p>
                     <button id="restart-btn" class="primary-button">Play Again</button>
-                    <button class="primary-button secondary-button" onclick="window.location.href='index.html'">Main Menu</button>
+                    <button class="primary-button secondary-button" onclick="window.location.href='../'">Main Menu</button>
                 </div>
+            </div>
+
+            <div id="countdown-modal" class="hidden">
+                <div id="countdown-text">3</div>
             </div>
         </div>
         
-        <script type="module" src="kanaMatch.js"></script>
+        <script type="module" src="kanaRush.js"></script>
         
     </body>
 </html>

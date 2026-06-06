@@ -24,14 +24,16 @@ let timerInterval = null;
 let isPlaying = false;
 
 // --- DOM Elements ---
-const modeSelect = document.getElementById("mode-select");
+const modeSelect       = document.getElementById("mode-select");
 const highScoreDisplay = document.getElementById("high-score-display");
-const timeDisplay = document.getElementById("time-display");
-const scoreDisplay = document.getElementById("score-display");
-const mainUserDisplay = document.getElementById("main-user-display");
-const userStats = document.getElementById("user-stats");
-const guestWarning = document.getElementById("guest-warning");
-const gridCells = document.querySelectorAll('td');
+const timeDisplay      = document.getElementById("time-display");
+const scoreDisplay     = document.getElementById("score-display");
+const mainUserDisplay  = document.getElementById("main-user-display");
+const userStats        = document.getElementById("user-stats");
+const guestWarning     = document.getElementById("guest-warning");
+const gridCells        = document.querySelectorAll("td");
+const countdownModal   = document.getElementById("countdown-modal")
+const countdownText    = document.getElementById("countdown-text")
 
 // --- Initialization ---
 window.onload = async () => {
@@ -49,12 +51,12 @@ window.onload = async () => {
 
     document.getElementById("start-btn").addEventListener("click", () => {
         document.getElementById("start-modal").classList.add("hidden");
-        startGame();
+        startCountdown();
     });
 
     document.getElementById("restart-btn").addEventListener("click", () => {
         document.getElementById("end-modal").classList.add("hidden");
-        startGame();
+        startCountdown();
     });
 };
 
@@ -100,6 +102,21 @@ function updateHighScoreDisplay() {
 }
 
 // --- Game Loop ---
+async function startCountdown()
+{
+    countdownModal.classList.remove("hidden");
+    
+    countdownText.textContent = "3";
+    await sleep(1000);
+    countdownText.textContent = "2";
+    await sleep(1000);
+    countdownText.textContent = "1";
+    await sleep(1000);
+
+    countdownModal.classList.add("hidden");
+    startGame();
+}
+
 function startGame() {
     if (timerInterval) clearInterval(timerInterval); 
     

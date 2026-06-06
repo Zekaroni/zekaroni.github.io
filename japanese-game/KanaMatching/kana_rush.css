@@ -132,3 +132,24 @@ td.clicked-color {
     justify-content: center;
     margin-top: 1.5cqw;
 }
+
+#countdown-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 150; /* Sits above everything else */
+    border-radius: 1.5cqw;
+}
+
+#countdown-text {
+    font-size: 15cqw;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0.5cqw 2cqw rgba(0, 0, 0, 0.5);
+}
