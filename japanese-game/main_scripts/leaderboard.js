@@ -1,27 +1,35 @@
-import { db } from './firebase-init.js';
+import { db } from "./firebase-init.js";
 import { collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 export async function fetchAndRenderLeaderboard(mode)
 {
-    const scoreField = mode === "katakana" ? "katakanaMatchingHighscore" : "hiraganaMatchingHighscore";
+    const scoreField = mode === "katakana" ? "kataRush" : "hiraRush";
     const q = query(collection(db, "users"), orderBy(scoreField, "desc"), limit(10));
     
-    const queryResult = await getDocs(q);
-    const players = [];
-    
-    queryResult.forEach((doc) =>
-    {
-        const data = doc.data();
-        if (data && data.email)
-        {
-            players.push({ 
-                name: data.email.split('@')[0], 
-                score: data[scoreField] || 0 
-            });
-        }
-    });
-    
-    renderLeaderboard(players);
+    try {
+        const queryResult = await getDocs(q);
+        const players = [];
+        
+        queryResult.forEach(
+            (doc) =>
+            {
+                const data = doc.data();
+                // Strictly fetch the new username field
+                const playerName = data.username || "Unknown"; 
+                
+                if (data && data[scoreField] > 0) {
+                    players.push({ 
+                        name: playerName, 
+                        score: data[scoreField] 
+                    });
+                }
+            }
+        );
+        
+        renderLeaderboard(players);
+    } catch (error) {
+        console.error("Error loading leaderboard:", error);
+    }
 }
 
 function renderLeaderboard(playerData)
@@ -40,7 +48,7 @@ function renderLeaderboard(playerData)
         if (i < sortedPlayers.length)
         {
             const player = sortedPlayers[i];
-            listItem.innerHTML = `<strong><a href="../Profile/?user=${player.name}" style="color: #8ab4f8; text-decoration: none;">${player.name}</a></strong> - ${player.score} pts`;
+            listItem.innerHTML = `<strong><a href="../Profile/?user=${player.name}" class="player-link"">${player.name}</a></strong> - ${player.score} pts`;
         } else {
             listItem.innerHTML = `<span style="color: #bbb;">--- Empty Slot ---</span>`;
         }

@@ -123,7 +123,7 @@ document.getElementById('register-submit').onclick = async () =>
             outgoingRequests: []
         });
 
-        // IMPORTANT: Sign out immediately so they have to properly log in once verified
+        // Sign out immediately so they have to properly log in once verified
         await signOut(auth);
         
         authError.style.color = "green";

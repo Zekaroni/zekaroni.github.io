@@ -158,3 +158,12 @@ td:hover:not(.clicked-color):not(.matched) {
     background-color: #c7c5b8;
     transition: background-color 0.1s ease-in-out;
 }
+
+.player-link {
+    color: #ad750d;
+    text-decoration: none;
+}
+
+.player-link:hover {
+    text-decoration: underline;
+}
