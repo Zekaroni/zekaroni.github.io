@@ -60,6 +60,7 @@ async function loadUserProfile(username)
         if (querySnapshot.empty)
         {
             usernameDisplay.textContent = "User Not Found";
+            addFriendBtn.classList.add("hidden");
             return;
         }
 
