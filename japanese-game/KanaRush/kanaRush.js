@@ -94,12 +94,13 @@ onAuthStateChanged(auth,
             mainUserDisplay.textContent = user.email.split('@')[0];
             
             const docSnap = await getDoc(doc(db, "users", user.uid));
-            
+
             if (docSnap.exists())
             {
                 const data = docSnap.data();
-                highScores.hiragana = data.hiraganaMatchingHighscore || 0;
-                highScores.katakana = data.kataKanaRushHighscore || 0;
+                mainUserDisplay.textContent = data.username || "Unknown";
+                highScores.hiragana = data.hiraRush || 0;
+                highScores.katakana = data.kataRush || 0;
                 updateHighScoreDisplay();
             }
             
@@ -195,16 +196,14 @@ async function endGame()
     document.getElementById("final-score").textContent = score;
     document.getElementById("final-time").textContent = (totalTimePlayed / 10).toFixed(1);
     
-    if (currentUser && score > highScores[currentMode])
-    {
+    if (currentUser && score > highScores[currentMode]) {
         highScores[currentMode] = score;
 
         await setDoc(
             doc(db, "users", currentUser.uid),
             {
-                email: currentUser.email,
-                kataKanaRushHighscore: highScores.katakana,
-                hiraganaMatchingHighscore: highScores.hiragana
+                kataRush: highScores.katakana,
+                hiraRush: highScores.hiragana
             },
             { merge: true }
         );

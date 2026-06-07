@@ -22,10 +22,19 @@
             <div id="auth-modal" class="hidden">
                 <div class="modal-content">
                     <h2>Account Access</h2>
-                    <input type="text" id="username-input" class="modal-input" placeholder="Username">
+                    
+                    <div class="auth-toggle-group">
+                        <button id="tab-login" class="auth-tab active-tab">Login</button>
+                        <button id="tab-register" class="auth-tab">Register</button>
+                    </div>
+
+                    <input type="text" id="email-input" class="modal-input" placeholder="Email or Username">
+                    <input type="text" id="username-input" class="modal-input hidden" placeholder="Choose a Username">
                     <input type="password" id="password-input" class="modal-input" placeholder="Password">
+                    
                     <button id="login-submit" class="menu-button modal-submit-btn">Login</button>
-                    <button id="register-submit" class="menu-button modal-submit-btn">Register</button>
+                    <button id="register-submit" class="menu-button modal-submit-btn hidden">Register</button>
+                    
                     <p id="auth-error"></p>
                     <button id="close-modal">Cancel</button>
                 </div>

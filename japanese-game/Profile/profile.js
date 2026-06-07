@@ -1,6 +1,6 @@
 import { auth, db } from "../main_scripts/firebase-init.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { collection, query, where, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const targetUser = urlParams.get('user');
@@ -10,17 +10,26 @@ const statsContainer = document.getElementById("stats-container");
 const errorDisplay = document.getElementById("error-message");
 const addFriendBtn = document.getElementById("add-friend-btn");
 
-onAuthStateChanged(auth,
+onAuthStateChanged(auth, 
     async (loggedInUser) =>
     {
         let usernameToSearch = targetUser;
+        let currentLoggedInUsername = null;
 
-        // If no user is specified in the URL, try to load the logged-in user
+        // Fetch the actual username of the person logged in
+        if (loggedInUser)
+        {
+            const userDoc = await getDoc(doc(db, "users", loggedInUser.uid));
+            if (userDoc.exists()) {
+                currentLoggedInUsername = userDoc.data().username;
+            }
+        }
+
+        // If no user is specified in the URL, default to the logged-in user
         if (!usernameToSearch)
         {
-            if (loggedInUser)
-            {
-                usernameToSearch = loggedInUser.email.split('@')[0];
+            if (currentLoggedInUsername) {
+                usernameToSearch = currentLoggedInUsername;
             } else {
                 usernameDisplay.textContent = "Not Logged In";
                 errorDisplay.textContent = "Please log in to view your profile.";
@@ -31,7 +40,7 @@ onAuthStateChanged(auth,
         usernameDisplay.textContent = usernameToSearch;
         
         // Check if looking at someone else's profile to reveal the Add Friend button
-        if (loggedInUser && loggedInUser.email.split('@')[0] !== usernameToSearch)
+        if (currentLoggedInUsername && currentLoggedInUsername !== usernameToSearch)
         {
             addFriendBtn.classList.remove("hidden");
         }
@@ -42,9 +51,8 @@ onAuthStateChanged(auth,
 
 async function loadUserProfile(username)
 {
-    const pseudoEmail = `${username.toLowerCase()}@hiraganamatch.internal`;
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("email", "==", pseudoEmail));
+    const q = query(usersRef, where("username", "==", username));
     
     try {
         const querySnapshot = await getDocs(q);
@@ -59,14 +67,13 @@ async function loadUserProfile(username)
             (doc) =>
             {
                 const data = doc.data();
-                document.getElementById("stat-kata-rush").textContent = data.katakanaMatchingHighscore || 0;
-                document.getElementById("stat-hira-rush").textContent = data.hiraganaMatchingHighscore || 0;
-                
-                statsContainer.classList.remove("hidden");
+                document.getElementById("stat-kata-rush").textContent = data.kataRush || 0;
+                document.getElementById("stat-hira-rush").textContent = data.hiraRush || 0;
+            
+              statsContainer.classList.remove("hidden");
             }
         );
-    } catch (error)
-    {
+    } catch (error) {
         errorDisplay.textContent = "Error loading profile data.";
         console.error(error);
     }

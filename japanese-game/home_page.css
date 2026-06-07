@@ -97,3 +97,31 @@ h1 {
     border: none;
     text-decoration: underline;
 }
+
+.auth-toggle-group {
+    display: flex;
+    justify-content: center;
+    gap: 2cqw;
+    margin-bottom: 1.5cqw;
+}
+
+.auth-tab {
+    background: none;
+    border: none;
+    font-size: 1.5cqw;
+    color: #888;
+    cursor: pointer;
+    padding-bottom: 0.5cqw;
+    font-weight: bold;
+    border-bottom: 0.3cqw solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.auth-tab:hover {
+    color: #555;
+}
+
+.active-tab {
+    color: #333;
+    border-bottom: 0.3cqw solid #8ab4f8;
+}

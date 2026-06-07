@@ -3,14 +3,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCofQ5lysFcYHmZyMVyiJtnul0g0mGBZ6Q",
-    authDomain: "japanese-game-ba74a.firebaseapp.com",
-    projectId: "japanese-game-ba74a",
-    storageBucket: "japanese-game-ba74a.firebasestorage.app",
-    messagingSenderId: "421986374043",
-    appId: "1:421986374043:web:8a76554eb70489e038513e",
-    measurementId: "G-0NTJXMZCVN"
+const firebaseConfig = { // Added new Firebase "Dojolingo" api
+    apiKey: "AIzaSyBms9pPlQaE3T7Wt_Nkk9OFfhh4u5cg2HU",
+    authDomain: "dojolingo.firebaseapp.com",
+    projectId: "dojolingo",
+    storageBucket: "dojolingo.firebasestorage.app",
+    messagingSenderId: "854883073754",
+    appId: "1:854883073754:web:a64f4350df30aa46c8efe3",
+    measurementId: "G-W88T0C2G4P"
 };
 
 const app = initializeApp(firebaseConfig);
